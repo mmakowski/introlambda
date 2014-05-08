@@ -1,0 +1,115 @@
+\documentclass[11pt,twoside,a4paper]{article} % scrartcl
+
+\usepackage{amsmath}
+\usepackage[hidelinks]{hyperref}
+\usepackage{mdframed}
+\usepackage{syntax}
+
+\begin{document}
+\title{Introduction to Lambda Calculus}
+%\subtitle{notes}
+\author{Maciek Makowski}
+\maketitle
+
+\section{Motivation}
+
+TODO
+
+\section{Syntax}
+
+\setlength{\grammarindent}{6em} 
+\begin{grammar}
+<term> ::= $v$ 
+   \alt $\lambda v.$<term> 
+   \alt <term> <term>
+\end{grammar}
+where $v\in V$, a set of variable names.
+
+Examples: $v_1$, $x\ y$, $(\lambda a.\lambda b.a)\ c\ (\lambda a.b)$
+
+The rule with 
+
+\section{Rewriting Rules}
+
+The grammar tells us how to generate arbitrary lambda-terms. We can define the
+following operations on those terms:
+\begin{itemize}
+\item renaming of bound variables (\emph{$\alpha$-conversion}); e.g. $(\lambda
+x.x\,y)\ (\lambda x.x)\longleftrightarrow_\alpha(\lambda
+a.a\,y)\ (\lambda b.b)$
+\item removal of abstraction under application (\emph{$\beta$-reduction}); e.g. $(\lambda
+x.x\,y)\ (\lambda x.x)\longrightarrow_\beta y$
+\item introduction/removal of redundant abstraction (\emph{$\eta$-conversion});
+e.g. $\lambda x.y\,x\longleftrightarrow_\eta y$
+\end{itemize}
+TODO: note on subtleties in substitution
+
+TODO: expand on each rule
+
+\section{Foundational Theory}
+
+What exactly is the number 2? Foundational theories of mathematics attempt to 
+provide a concrete answer in terms of some primitive objects. The best known 
+example is that based in set theory. Using Peano's arithmetic where $2=S(S(0))$
+($S$ is the successor function) natural numbers can be modelled as follows:
+\begin{align*}
+0 &= \emptyset \\
+1 &= \left\{\emptyset\right\} \\
+2 &= \left\{\left\{\emptyset\right\}, \emptyset\right\}
+\end{align*}
+
+\begin{mdframed}
+In general, $S(n) = n \cup \left\{n\right\}$.
+\end{mdframed}
+
+It turns out that all known mathematical concepts can be stated in terms of 
+set theory. Lambda calculus was conceived by Church as an alternative 
+foundational theory in which mathematics can be embedded\cite{grue97}. 
+How do we model natural numbers in it?
+\begin{align*}
+0 &= \lambda s.\lambda z.z \\
+1 &= \lambda s.\lambda z.s\,z \\
+2 &= \lambda s.\lambda z.s\,(s\,z)
+\end{align*}
+
+\begin{mdframed}
+In general, $S(n) = \lambda s.\lambda z\underbrace{s\,(\dots s\,(s}_n\,z)\dots)$.
+\end{mdframed}
+
+\section{Model of Computation}
+
+We have seen that simple arithmetic operations can be expressed in 
+TODO
+
+\section{Programming Language}
+
+TODO
+
+\section{Church-Rosser Theorem}
+
+TODO
+
+\section{Curry-Howard Correspondence}
+
+TODO
+
+\section{Further Reading}
+
+A direct inspiration for this talk was the presentation of lambda calculus in
+\cite{TAPL}. The book is very well written and builds a sophisticated type
+system in easy to follow steps, starting from untyped lambda calculus. 
+
+For a succinct but rigorous introduction to lambda calculus see \cite{bb00}.
+
+TODO
+
+\begin{thebibliography}{9}
+\bibitem{TAPL} Benjamin C. Pierce, \emph{Types and Programming Languages},
+\url{http://www.cis.upenn.edu/~bcpierce/tapl/}
+\bibitem{grue97} Klaus Grue, \emph{Lambda calculus as a foundation of mathematics},
+\url{http://www.diku.dk/~grue/papers/church/church.html}
+\bibitem{bb00} Henk Berendregt, Erik Barendsen, \emph{Introduction to Lambda
+Calculus}, \url{http://www.cse.chalmers.se/research/group/logic/TypesSS05/Extra/geuvers.pdf}
+\end{thebibliography}
+
+\end{document}
