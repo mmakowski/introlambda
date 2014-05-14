@@ -3,7 +3,9 @@
 \usepackage{amsmath}
 \usepackage[hidelinks]{hyperref}
 \usepackage{mdframed}
-\usepackage{syntax}
+
+\newcommand{\nonterm}[1]{$\left<#1\right>$}
+\newcommand{\alt}[0]{$|$}
 
 \begin{document}
 \title{Introduction to Lambda Calculus}
@@ -13,26 +15,66 @@
 
 \section{Motivation}
 
-TODO
+Software is pervasive in the modern world and has influence over many aspects 
+of our lives. In some cases, such as avionics or medical equipment control, 
+human life depends on the correctness of software. Yet, high profile cases of 
+bugs\footnote{Infamous historical examples include Mars Climate 
+Orbiter's inconsistent usage of units of measurement\cite{mco} and Therac-25 
+radiation therapy overdoses\cite{therac25}. Recent faults such as
+security-related Apple goto fail\cite{cve141266} and OpenSSL Heartbleed
+bug\cite{cve140160},
+while not life-threatening, had wide-ranging implications for the security of
+e-commerce and privacy of internet users.} do not inspire confidence in the 
+state of software engineering. The "software crisis" is a phenomenon recognised 
+by practitioners of the field. A number of ways to address the reliability issue 
+has been proposed, from reliance on programmer's 
+discipline\cite{cleancode}\cite{securecoding}, through tools that
+analyse programs written in popular languages for suspicious 
+patterns\cite{raf04}, to languages that restrict valid programs to ones whose 
+properties can be formally proven. The latter approach relies on a body of 
+theoretical knowledge that can be intimidating at first sight. It turns out, 
+however, that much of the required insight is built on systematic extensions of 
+a very simple formal system -- the lambda calculus. Familiarity with the 
+fundamentals of lambda calculus is a prerequisite for proficiency with modern 
+software engineering tools. Fortunately, thanks to the simplicity of the 
+calculus, it is easily achievable.
 
 \section{Syntax}
 
-\setlength{\grammarindent}{6em} 
-\begin{grammar}
-<term> ::= $v$ 
-   \alt $\lambda v.$<term> 
-   \alt <term> <term>
-\end{grammar}
-where $v\in V$, a set of variable names.
-
-Examples: $v_1$, $x\ y$, $(\lambda a.\lambda b.a)\ c\ (\lambda a.b)$
-
-The rule with 
+Terms of lambda calculus represent anonymous functions over some predefined set of 
+variables $X$:
+\begin{tabbing}
+\nonterm{term} \= ::=  \= $x$~~~~~~~~~~~~~~~~~~~~~~~~~~ \= (variable)    \\
+               \> \alt \> $\lambda x.$\nonterm{term}    \> (abstraction) \\
+               \> \alt \> \nonterm{term} \nonterm{term} \> (application) \\
+\end{tabbing}
+where $x\in X$. Examples:
+\begin{itemize}
+\item $v_1$
+\item $x\ y$
+\item $(\lambda a.\lambda b.a)\ c\ (\lambda a.b)$
+\end{itemize}
+Within a term, occurrences of variables that are not bound by enclosing abstraction
+are called \emph{free}. In examples below the underlined variable occurrences
+are free:
+\begin{itemize}
+\item $\lambda x.\underline{y}$
+\item $\lambda a.\underline{b}\ a\ (\lambda b.b)$
+\end{itemize}
+Note that the same variable name might have both bound and free occurrences
+within a term\footnote{Variable capture is a potential source of subtle bugs
+in a practical implementation. For that reason a convenient way to represent 
+lambda terms when implementing evaluation is De Bruijn encoding. It replaces
+variable names with numerical index of the lambda that binds given variable
+occurrence TODO: example}. Terms with no free occurrences are known as
+\emph{closed terms}, or \emph{combinators}.
 
 \section{Rewriting Rules}
 
-The grammar tells us how to generate arbitrary lambda-terms. We can define the
-following operations on those terms:
+The grammar tells us how to generate arbitrary lambda-terms. In order for this 
+representation of mathematical functions to be faithful, we need to be able to unify
+different representations of the same value. Lambda calculus allows us to do that 
+syntactically, by applying three kinds transformations:
 \begin{itemize}
 \item renaming of bound variables (\emph{$\alpha$-conversion}); e.g. $(\lambda
 x.x\,y)\ (\lambda x.x)\longleftrightarrow_\alpha(\lambda
@@ -110,6 +152,20 @@ TODO
 \url{http://www.diku.dk/~grue/papers/church/church.html}
 \bibitem{bb00} Henk Berendregt, Erik Barendsen, \emph{Introduction to Lambda
 Calculus}, \url{http://www.cse.chalmers.se/research/group/logic/TypesSS05/Extra/geuvers.pdf}
+\bibitem{mco} NASA, \emph{Mars Climate Orbiter Team Finds Likely Cause of Loss}, 
+\url{http://www.jpl.nasa.gov/news/releases/99/mcoloss1.html}
+\bibitem{therac25} Nancy Leveson, Clark S. Turner, 
+\emph{An Investigation of the Therac-25 Accidents}
+\url{http://courses.cs.vt.edu/cs3604/lib/Therac_25/Therac_1.html}
+\bibitem{cve141266} \emph{CVE-2014-1266},
+\url{http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-1266}
+\bibitem{cve140160} \emph{CVE-2014-0160}, 
+\url{https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-0160}
+\bibitem{cleancode} Robert C. Martin, \emph{Clean Code}
+\bibitem{securecoding} various authors, \emph{CERT C Coding Standard}, 
+\url{https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=524435}
+\bibitem{raf04} Nick Rutar, Christian B. Almazan, Jeffrey S. Foster, \emph{A
+Comparison of Bug Finding Tools for Java}, \url{http://www.cs.umd.edu/~jfoster/papers/issre04.pdf}
 \end{thebibliography}
 
 \end{document}
