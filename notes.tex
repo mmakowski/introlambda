@@ -38,8 +38,9 @@ theoretical knowledge that can appear intimidating. It turns out,
 however, that much of the required insight is built on systematic extensions of 
 a very simple formal system -- the lambda calculus. Familiarity with the 
 fundamentals of lambda calculus is a prerequisite for proficiency with modern 
-software engineering tools. Fortunately, thanks to the simplicity of the 
-calculus, it is easily achievable.
+software engineering tools. These notes aim to introduce lambda calculus in a 
+very informal manner. The only background assumed is that of general programming 
+experience.
 
 \section{Syntax}
 
@@ -98,11 +99,12 @@ operation appears trivial, there are subtleties around bound vs. free
 variables -- for instance, nested abstractions can use the same variable name
 -- but these difficulties manifest themselves mostly in the
 implementation\footnote{For that reason a convenient way to represent 
-lambda terms when implementing evaluation is de Bruijn encoding. It replaces
-variable names with numerical index of the lambda that binds given variable
-occurrence for example de Bruijn representation of $\lambda a.\lambda b.a\ b\ c$ 
-would be $\lambda.\lambda.1\ 0\ 2$ under naming context $\{c\mapsto 2\}$. 
-The naming context is required to map free variables to indices.}, so we will
+lambda terms when implementing evaluation is positional (de Bruijn) encoding
+which replaces variable names with numerical index of the lambda that binds given 
+variable occurrence. For example, de Bruijn representation of 
+$\lambda a.\lambda b.a\ b\ c$  would be $\lambda.\lambda.1\ 0\ 2$ under naming 
+context $\{c\mapsto 2\}$.  The naming context is required to map free variables 
+to indices.}, so we will
 not worry about them in this presentation. The intuition about variable
 renaming is correct in most cases we are interested in. In particular, we can 
 assume that all the variables in the terms we are working with have been chosen
@@ -113,13 +115,19 @@ a.a\,y)\ (\lambda b.b)$
 
 \subsection{Removal of abstraction under application}
 
-\paragraph{Example:} $(\lambda x.x\,y)\ (\lambda x.x)\longrightarrow_\beta y$
+TODO: \emph{$\beta$-reduction}
 
-\emph{$\beta$-reduction}
+\paragraph{Example:} $(\lambda x.x\,y)\ (\lambda x.x)\longrightarrow_\beta y$
 
 This is the key operation of lambda calculus, as it represents a
 \emph{computation}. It allows us to view a lambda term as a program that can be
 evaluated to a final value (i.e. a term that cannot be further reduced).
+
+TODO: choice of redex
+
+\paragraph{Summary:} lambda-terms can be syntactically transformed according to 
+two rules: $\alpha$-conversion, which renames the variables, and $\beta$-reduction,
+which "applies" one term to another.
 
 \section{Programming}
 
