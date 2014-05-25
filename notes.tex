@@ -5,6 +5,8 @@
 \usepackage[utf8]{inputenc}
 \usepackage{mdframed}
 \usepackage{qtree}
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes,calc,decorations.pathreplacing}
 
 \newcommand{\nonterm}[1]{$\left<#1\right>$}
 \newcommand{\alt}[0]{$|$}
@@ -91,8 +93,8 @@ operations we will use going forward are presented below.
 \subsection{Renaming of bound variables}
 
 Intuitively, $\lambda x.x$ is similar to $\lambda y.y$ -- the "shape" of these
-two terms is the same, they differ only in the choice of variable used, which
-is arbitrary. In practice we will often want to identify terms of the same structure. 
+two terms is the same, they differ only in the choice of variable used. In 
+practice we will often want to identify terms of the same structure. 
 This intuitive similarity is captured by an operation called 
 \emph{$\alpha$-conversion} that consistently renames variables. While the
 operation appears trivial, there are subtleties around bound vs. free
@@ -104,12 +106,11 @@ which replaces variable names with numerical index of the lambda that binds give
 variable occurrence. For example, de Bruijn representation of 
 $\lambda a.\lambda b.a\ b\ c$  would be $\lambda.\lambda.1\ 0\ 2$ under naming 
 context $\{c\mapsto 2\}$.  The naming context is required to map free variables 
-to indices.}, so we will
-not worry about them in this presentation. The intuition about variable
-renaming is correct in most cases we are interested in. In particular, we can 
-assume that all the variables in the terms we are working with have been chosen
-so that they are distinct. It is always possible to $\alpha$-convert any term
-so that this is true.
+to indices.}, so we will not worry about them in this presentation. The intuition 
+about variable renaming is correct in most cases we are interested in. In 
+particular, we can assume that all the variables in the terms we are working 
+with have been chosen so that they are distinct. It is always possible to 
+$\alpha$-convert any term so that this is true.
 \paragraph{Example:} $(\lambda x.x\,y)\ (\lambda x.x)\longleftrightarrow_\alpha(\lambda
 a.a\,y)\ (\lambda b.b)$
 
@@ -117,13 +118,56 @@ a.a\,y)\ (\lambda b.b)$
 
 TODO: \emph{$\beta$-reduction}
 
-\paragraph{Example:} $(\lambda x.x\,y)\ (\lambda x.x)\longrightarrow_\beta y$
+\paragraph{Example:} $(\lambda x.x\,y)\ (\lambda z.z)\longrightarrow_\beta
+(\lambda z.z)\ y\longrightarrow_\beta y$
+
+In the first reduction, $\lambda x.$ is eliminated by substituting $\lambda z.z$ 
+for $x$, in the second, $\lambda z.$ is eliminated by substituting $y$ for $z$.
 
 This is the key operation of lambda calculus, as it represents a
 \emph{computation}. It allows us to view a lambda term as a program that can be
-evaluated to a final value (i.e. a term that cannot be further reduced).
+evaluated to a final value (i.e. a term that cannot be further reduced). That
+final value is called a \emph{normal form} of a term.
 
-TODO: choice of redex
+An application that can be $\beta$-reduced is called a \emph{redex}. There can
+be multiple redexes in a given term:
+
+\begin{tikzpicture}[every node/.style={inner sep=0,outer sep=1}]
+    \node[matrix](s1) at (3,0) {
+        \node     {$(\lambda a.$}; &
+        \node(s2) {$(\lambda b.b)\,a$}; &
+        \node     {$)\,($}; &
+        \node(s3) {$(\lambda c.\lambda d.d)\,\lambda f.f$}; &
+        \node     {$)$}; \\
+    };
+    \node(d1) at (3,2) {$(\lambda b.b)\,((\lambda c.\lambda d.d)\,\lambda f.f)$};
+    \node[matrix] at (0,-2){
+        \node                   {$(\lambda a.$}; &
+        \node(d2) at (0, -0.01) {$a$}; &
+        \node                   {$)\,((\lambda c.\lambda d.d)\,\lambda f.f)$}; \\
+    };
+    \node[matrix] at (5,-2){
+        \node     {$(\lambda a.(\lambda b.b)\,a)\,($}; &
+        \node(d3) {$\lambda d.d$}; &
+        \node     {$)$}; \\
+    };
+    \draw[decorate,decoration={brace,amplitude=5pt}]
+    (s1.north west)--(s1.north east);
+    \draw[->] ($(s1.north)+(0,5pt)$) to node[right,midway]{}(d1);
+    \draw[decorate,decoration={brace,mirror,amplitude=5pt}]
+    (s2.south west)--(s2.south east);
+    \draw[->] ($(s2.south)+(0,-5pt)$) to [out=-90,in=90] node{}(d2);
+    \draw[decorate,decoration={brace,mirror,amplitude=5pt}]
+    (s3.south west)--(s3.south east);
+    \draw[->] ($(s3.south)+(0,-5pt)$) to [out=-90,in=90] node{}(d3);
+\end{tikzpicture}
+
+The choice of the redex to be reduced next is up to us. Prescribing which redex
+should be chosen gives rise to a reduction strategy. For example:
+\begin{itemize}
+\item TODO: call-by-name
+\item TODO: call-by-value
+\end{itemize}
 
 \paragraph{Summary:} lambda-terms can be syntactically transformed according to 
 two rules: $\alpha$-conversion, which renames the variables, and $\beta$-reduction,
