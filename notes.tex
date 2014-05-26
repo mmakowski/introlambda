@@ -7,7 +7,7 @@
 \lstset{language=ML}
 \usepackage{qtree}
 \usepackage{tikz}
-\usetikzlibrary{arrows,shapes,calc,decorations.pathreplacing}
+\usetikzlibrary{arrows,calc,decorations.pathreplacing,matrix,shapes}
 
 \newcommand{\nonterm}[1]{$\left<#1\right>$}
 \newcommand{\alt}[0]{$|$}
@@ -174,6 +174,8 @@ should be chosen gives rise to a reduction strategy. For example:
 \item TODO: call-by-value
 \end{itemize}
 
+TODO: Church-Rosser
+
 \paragraph{Summary:} lambda-terms can be syntactically transformed according to 
 two rules: $\alpha$-conversion, which renames the variables, and $\beta$-reduction,
 which "applies" one term to another.
@@ -274,17 +276,38 @@ $\vdots$ \\
 
 TODO
 
-\section{Model of Computation}
-
-TODO
-
-\section{Church-Rosser Theorem}
+\section{Types}
 
 TODO
 
 \section{Curry-Howard Correspondence}
 
 TODO
+
+\section{More Types}
+
+More elaborate calculi build on top of simply-typed lambda calculus. The
+diagram below shows some of the extensions.
+
+%\vphantom{...} for alignment of vertical sizes
+\begin{tikzpicture}
+  \matrix(m)[matrix of math nodes, row sep=3em, column sep=3em]{
+                        & \lambda\omega             &            & \lambda P\omega      \\
+    \lambda 2           &                           & \lambda P2 &                      \\
+                        & \lambda\underline{\omega} &            & \lambda P\underline{\omega} \\
+    \lambda_\rightarrow &                           & \lambda P  &                      \\
+  };
+  \path[-stealth]
+    (m-4-1) edge (m-2-1) edge (m-4-3) edge [densely dotted] (m-3-2)
+    (m-3-2) edge [densely dotted] (m-1-2) edge [densely dotted] (m-3-4)
+    (m-2-1) edge (m-1-2) edge [-,line width=6pt,draw=white] (m-2-3) edge (m-2-3)
+    (m-4-3) edge (m-3-4) edge [-,line width=6pt,draw=white] (m-2-3) edge (m-2-3)
+    (m-1-2) edge (m-1-4)
+    (m-2-3) edge (m-1-4)
+    (m-3-4) edge (m-1-4)
+\end{tikzpicture}
+
+TODO: $F^\omega_{<:}$
 
 \section{Further Reading}
 
