@@ -5,7 +5,6 @@
 \usepackage[utf8]{inputenc}
 \usepackage{listings} 
 \lstset{language=ML}
-\usepackage{mdframed}
 \usepackage{qtree}
 \usepackage{tikz}
 \usetikzlibrary{arrows,shapes,calc,decorations.pathreplacing}
@@ -179,6 +178,35 @@ should be chosen gives rise to a reduction strategy. For example:
 two rules: $\alpha$-conversion, which renames the variables, and $\beta$-reduction,
 which "applies" one term to another.
 
+\section{Mathematical Interpretation}
+
+So far we have discussed the syntax of lambda calculus without any mention of
+its semantics. The purpose of this restriction was to stress that all the
+constructs we will be building are defined as manipulation of term trees,
+and any meaning we might associate with them is secondary. That said,
+understanding the upcoming sections will be much easier with a mental model of
+what a lambda term represents. It perhaps comes as no surprise that a lambda
+abstraction can be interpretet as an anonymous function. 
+
+\paragraph{Example:} in common mathematical notation we would write 
+\begin{align*}
+f(x)=a*x+b
+\end{align*}
+to describe a linear function of $x$. The same function can be represented by 
+lambda term 
+\begin{align*}
+\lambda x.+\,(*\,a\,x)\,b
+\end{align*}
+where $*$ and $+$ are predefined binary 
+functions that respectively multiply and add numbers and are written in prefix
+notation due to lambda calculus syntactic rules.
+\\\\
+Lambda application is then simply application of the function represented by
+the first subterm to the argument represented by the second subterm. In this
+model, $\beta$-reduction is a method of function evaluation.
+
+\paragraph{Summary:} lambda abstractions represent mathematical functions.
+
 \section{Programming}
 
 We claimed that a lambda term can be treated as a computer program. To substantiate 
@@ -211,24 +239,36 @@ reduce to $f$.
 
 \subsection{Numbers}
 
+Another primitive essential in programming as we know it are numbers. After
+Peano, we can specify the set of natural numbers by means of a chosen value
+\sym{0} and a function \sym{succ} that maps every natural number to
+its successor. In lambda calculus these can be encoded as follows:
 \begin{align*}
-0 &= \lambda s.\lambda z.z \\
-1 &= \lambda s.\lambda z.s\,z \\
-2 &= \lambda s.\lambda z.s\,(s\,z) \\
-3 &= \lambda s.\lambda z.s\,(s\,(s\,z)) \\
+\msym{0}    &= \lambda s.\lambda z.z \\
+\msym{succ} &= \lambda n.\lambda s.\lambda z.s\,(n\,s\,z) \\
 \end{align*}
-\begin{mdframed}
-In general, $n = \lambda s.\lambda z\underbrace{s\,(\dots s\,(s}_n\,z)\dots)$.
-\end{mdframed}
-
-TODO\footnote{Seeing how Peano arithmetic can be defined in lambda calculus,
+This what terms representing numbers look like with these 
+definitions\footnote{Seeing how Peano arithmetic can be defined in lambda calculus,
 and drawing parallels with Zermelo-Fraenkel set-theoretical model of
-natural numbers and the build-out of other mathematical constructions on this
+natural numbers and the build-out of other mathematical constructs on this
 basis, one could ask: can untyped lambda calculus be treated as a foundational
 theory in which all known mathematical concepts can be stated? Alonso Church had 
 that in mind when he conceived lambda calculus, but it was soon proven by his 
 studens, Kleene and Rosser\cite{wkrp}, that in fact the calculus as we present it here is 
-inconsistent, i.e. any proposition can be proven in it.}
+inconsistent, i.e. any proposition can be proven in it. TODO: why does it not
+concern us?}:
+\begin{center}
+\parbox{0cm}{
+\begin{tabbing}
+\sym{0} \= $=$ \= ~~~~~~~~~ \= ~~~ \= $\lambda s.\lambda z.z$    \\
+\sym{1} \> $=$ \> \sym{succ 0} \> $=$ \> $\lambda s.\lambda z.s\,z$ \\
+\sym{2} \> $=$ \> \sym{succ 1} \> $=$ \> $\lambda s.\lambda z.s\,(s\,z)$ \\
+\sym{3} \> $=$ \> \sym{succ 2} \> $=$ \> $\lambda s.\lambda z.s\,(s\,(s\,z))$ \\
+$\vdots$ \\
+\sym{n} \> $=$ \> \> \> $\lambda s.\lambda z\underbrace{s\,(\dots s\,(s}_n\,z)\dots)$
+\\
+\end{tabbing}}
+\end{center}
 
 \subsection{Loops}
 
