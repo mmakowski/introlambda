@@ -11,7 +11,8 @@
 
 \newcommand{\nonterm}[1]{$\left<#1\right>$}
 \newcommand{\alt}[0]{$|$}
-\newcommand{\kw}[1]{\bf{\texttt{#1}}}
+\newcommand{\kw}[1]{{\bf \texttt{#1}}}
+\newcommand{\mkw}[1]{{\bf \mathtt{#1}}}
 \newcommand{\sym}[1]{\texttt{#1}}
 \newcommand{\msym}[1]{\mathtt{#1}}
 
@@ -188,7 +189,7 @@ constructs we will be building are defined as manipulation of term trees,
 and any meaning we might associate with them is secondary. That said,
 understanding the upcoming sections will be much easier with a mental model of
 what a lambda term represents. It perhaps comes as no surprise that a lambda
-abstraction can be interpretet as an anonymous function. 
+abstraction can be interpreted as an anonymous function. 
 
 \paragraph{Example:} in common mathematical notation we would write 
 \begin{align*}
@@ -207,7 +208,8 @@ Lambda application is then simply application of the function represented by
 the first subterm to the argument represented by the second subterm. In this
 model, $\beta$-reduction is a method of function evaluation.
 
-\paragraph{Summary:} lambda abstractions represent mathematical functions.
+\paragraph{Summary:} lambda abstractions can be treated as representing mathematical 
+functions.
 
 \section{Programming}
 
@@ -233,11 +235,11 @@ some lambda-terms that will represent \sym{TRUE} and \sym{FALSE}:
 \end{align*}
 With these in place, the conditional expression can be written as
 \begin{align*}
-\msym{if} &= \lambda c.\lambda t.\lambda f.c\,t\,f
+\msym{test} &= \lambda c.\lambda t.\lambda f.c\,t\,f \\
+\mkw{if}\,C\,\mkw{then}\,T\,\mkw{else}\,F &\equiv \msym{test}\,C\,T\,F
 \end{align*}
 It is easy to see that indeed, if $c$ is \sym{TRUE} then $\beta$-reduction of
-$c\,t\,f$ will yield $t$ and if it is \sym{FALSE} then said application will
-reduce to $f$.
+$c\,t\,f$ will yield $t$ and if it is \sym{FALSE} then it will reduce to $f$.
 
 \subsection{Numbers}
 
@@ -249,7 +251,7 @@ its successor. In lambda calculus these can be encoded as follows:
 \msym{0}    &= \lambda s.\lambda z.z \\
 \msym{succ} &= \lambda n.\lambda s.\lambda z.s\,(n\,s\,z) \\
 \end{align*}
-This what terms representing numbers look like with these 
+This is what terms representing numbers look like with these 
 definitions\footnote{Seeing how Peano arithmetic can be defined in lambda calculus,
 and drawing parallels with Zermelo-Fraenkel set-theoretical model of
 natural numbers and the build-out of other mathematical constructs on this
@@ -262,7 +264,7 @@ concern us?}:
 \begin{center}
 \parbox{0cm}{
 \begin{tabbing}
-\sym{0} \= $=$ \= ~~~~~~~~~ \= ~~~ \= $\lambda s.\lambda z.z$    \\
+\sym{0} \= $=$ \= ~~~~~~~~~    \= ~~~ \= $\lambda s.\lambda z.z$    \\
 \sym{1} \> $=$ \> \sym{succ 0} \> $=$ \> $\lambda s.\lambda z.s\,z$ \\
 \sym{2} \> $=$ \> \sym{succ 1} \> $=$ \> $\lambda s.\lambda z.s\,(s\,z)$ \\
 \sym{3} \> $=$ \> \sym{succ 2} \> $=$ \> $\lambda s.\lambda z.s\,(s\,(s\,z))$ \\
@@ -271,10 +273,45 @@ $\vdots$ \\
 \\
 \end{tabbing}}
 \end{center}
+TODO: operations: times, eq, pred
 
-\subsection{Loops}
+\subsection{Repeated Calculation}
 
-TODO
+With numbers and conditionals in place, our language is still severly
+restricted. For example, how would we write a factorial function? As a
+reminder, the mathematical definition of factorial is
+\begin{align*}
+n!=\begin{cases}
+    1 & \text{if $n=0$},\\
+    n*(n-1)! & \text{otherwise}.
+  \end{cases}
+\end{align*}
+Implementation in a typical programming language involves either a recursion or
+a loop, neither of which is directly supported by lambda calculus. A way to
+deal with this is \emph{fixed point operator}:
+\begin{align*}
+\msym{Y}=\lambda f.(\lambda x.f\,(x\,x))\,(\lambda x.f\,(x\,x))
+\end{align*}
+This combinator is easiest understood by watching it work in practice.
+Intuitively, we construct a function parameterised by a function, then use
+\sym{Y} to feed the function into itself. Let us see how this works in case of
+factorial.
+\begin{align*}
+\msym{g} &= \lambda f.\lambda
+n.\mkw{if}\ \msym{eq}\ n\ \msym{0}\ \mkw{then}\ \msym{1}\ \mkw{else}\ (\msym{times}\ \msym{n}\,(f\,(\msym{pred}\ \msym{n}))) \\
+\msym{factorial} &= \msym{Y}\ \msym{g}
+\end{align*}
+TODO: evaluation of \sym{factorial} \sym{2}
+In general, a recursive function \sym{f}, that in a language that supports
+direct recursion would be defined as
+\begin{align*}
+\mkw{fun}\ \msym{f} = M(\msym{f})
+\end{align*}
+where $M(\msym{f})$ is the body of the function that contains reference to \sym{f}, 
+in lambda calculus can be defined as
+\begin{align*}
+\msym{f} = \msym{Y}\ (\lambda f.M(f))
+\end{align*}
 
 \section{Types}
 
@@ -289,7 +326,6 @@ TODO
 More elaborate calculi build on top of simply-typed lambda calculus. The
 diagram below shows some of the extensions.
 
-%\vphantom{...} for alignment of vertical sizes
 \begin{tikzpicture}
   \matrix(m)[matrix of math nodes, row sep=3em, column sep=3em]{
                         & \lambda\omega             &            & \lambda P\omega      \\
@@ -304,10 +340,23 @@ diagram below shows some of the extensions.
     (m-4-3) edge (m-3-4) edge [-,line width=6pt,draw=white] (m-2-3) edge (m-2-3)
     (m-1-2) edge (m-1-4)
     (m-2-3) edge (m-1-4)
-    (m-3-4) edge (m-1-4)
+    (m-3-4) edge (m-1-4);
 \end{tikzpicture}
 
 TODO: $F^\omega_{<:}$
+
+Direct extensions of simply-typed lambda calculus -- $\lambda_\rightarrow$ in the
+diagram -- are:
+\begin{itemize}
+\item $\lambda 2$, also known as \emph{System F}; adds terms depending on
+types, i.e. \emph{polymorphism}
+\item $\lambda\underline{\omega}$; adds types depending on types, i.e. \emph{type
+operators}
+\item $\lambda P$; adds types depending on terms, i.e. \emph{dependent types}
+\end{itemize}
+These extensions can be combined further into more powerful calculi. The eight
+calculi based on simple types and the three extensions mentioned form the
+\emph{lambda cube}\cite{b91}.
 
 \section{Further Reading}
 
@@ -328,6 +377,8 @@ Curry-Howard Isomorphism},
 \bibitem{bb00} Henk Berendregt, Erik Barendsen, \emph{Introduction to Lambda
 Calculus}, 
 \url{http://www.cse.chalmers.se/research/group/logic/TypesSS05/Extra/geuvers.pdf}
+\bibitem{b91} Henk Berendregt \emph{An Introduction to Generalized Type Systems}, 
+\url{http://www.diku.dk/hjemmesider/ansatte/henglein/papers/barendregt1991.pdf}
 \bibitem{grue97} Klaus Grue, \emph{Lambda calculus as a foundation of mathematics},
 \url{http://www.diku.dk/~grue/papers/church/church.html}
 \bibitem{mco} NASA, \emph{Mars Climate Orbiter Team Finds Likely Cause of Loss}, 
