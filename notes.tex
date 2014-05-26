@@ -3,6 +3,8 @@
 \usepackage{amsmath}
 \usepackage[hidelinks]{hyperref}
 \usepackage[utf8]{inputenc}
+\usepackage{listings} 
+\lstset{language=ML}
 \usepackage{mdframed}
 \usepackage{qtree}
 \usepackage{tikz}
@@ -10,8 +12,12 @@
 
 \newcommand{\nonterm}[1]{$\left<#1\right>$}
 \newcommand{\alt}[0]{$|$}
+\newcommand{\kw}[1]{\bf{\texttt{#1}}}
+\newcommand{\sym}[1]{\texttt{#1}}
+\newcommand{\msym}[1]{\mathtt{#1}}
 
 \begin{document}
+
 \title{Introduction to Lambda Calculus}
 %\subtitle{notes} 
 \author{Maciek Makowski (\texttt{@mmakowski})}
@@ -181,7 +187,27 @@ in lambda calculus.
 
 \subsection{Conditionals}
 
-TODO
+Choice of execution path to follow is a fundamental building block of most
+algorithms. It is usually represented as 
+\begin{center}
+\kw{if} $C$ \kw{then} $T$ \kw{else} $F$
+\end{center}
+where $C$ evaluates to either \sym{TRUE} or \sym{FALSE}, where \sym{TRUE} and 
+\sym{FALSE} are some specific values chosen by us beforehand. If $C$ evaluates 
+to \sym{TRUE} then the whole conditional expression evaluates to the result of 
+$T$, otherwise it evaluates to the result of $F$. To start with, let us choose 
+some lambda-terms that will represent \sym{TRUE} and \sym{FALSE}:
+\begin{align*}
+\msym{TRUE}  &= \lambda t.\lambda f.t \\
+\msym{FALSE} &= \lambda t.\lambda f.f \\
+\end{align*}
+With these in place, the conditional expression can be written as
+\begin{align*}
+\msym{if} &= \lambda c.\lambda t.\lambda f.c\,t\,f
+\end{align*}
+It is easy to see that indeed, if $c$ is \sym{TRUE} then $\beta$-reduction of
+$c\,t\,f$ will yield $t$ and if it is \sym{FALSE} then said application will
+reduce to $f$.
 
 \subsection{Numbers}
 
