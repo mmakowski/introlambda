@@ -232,22 +232,22 @@ algorithms. It is usually represented as
 \begin{center}
 \kw{if} $C$ \kw{then} $T$ \kw{else} $F$
 \end{center}
-where $C$ evaluates to either \sym{TRUE} or \sym{FALSE}, where \sym{TRUE} and 
-\sym{FALSE} are some specific values chosen by us beforehand. If $C$ evaluates 
-to \sym{TRUE} then the whole conditional expression evaluates to the result of 
+where $C$ evaluates to either \sym{true} or \sym{false}, where \sym{true} and 
+\sym{false} are some specific values chosen by us beforehand. If $C$ evaluates 
+to \sym{true} then the whole conditional expression evaluates to the result of 
 $T$, otherwise it evaluates to the result of $F$. To start with, let us choose 
-some lambda-terms that will represent \sym{TRUE} and \sym{FALSE}:
+some lambda-terms that will represent \sym{true} and \sym{false}:
 \begin{align*}
-\msym{TRUE}  &= \lambda t.\lambda f.t \\
-\msym{FALSE} &= \lambda t.\lambda f.f \\
+\msym{true}  &= \lambda t.\lambda f.t \\
+\msym{false} &= \lambda t.\lambda f.f \\
 \end{align*}
 With these in place, the conditional expression can be written as
 \begin{align*}
 \msym{test} &= \lambda c.\lambda t.\lambda f.c\,t\,f \\
 \mkw{if}\,C\,\mkw{then}\,T\,\mkw{else}\,F &\equiv \msym{test}\,C\,T\,F
 \end{align*}
-It is easy to see that indeed, if $c$ is \sym{TRUE} then $\beta$-reduction of
-$c\,t\,f$ will yield $t$ and if it is \sym{FALSE} then it will reduce to $f$.
+It is easy to see that indeed, if $c$ is \sym{true} then $\beta$-reduction of
+$c\,t\,f$ will yield $t$ and if it is \sym{false} then it will reduce to $f$.
 
 \subsection{Numbers}
 
@@ -307,14 +307,39 @@ deal with this is \emph{fixed point operator}:
 \end{align*}
 This combinator is easiest understood by watching it work in practice.
 Intuitively, we construct a function parameterised by a function, then use
-\sym{Y} to feed the function into itself. Let us see how this works in case of
-factorial.
+\sym{Y} to feed the function into itself. For example factorial
+can be defined as follows\footnote{Note that this definition is expressed 
+entirely in lambda calculus. We have
+previously shown how to encode \sym{if-then-else}, \sym{times} and numbers,
+\sym{pred} and \sym{eq} can also be encoded with a little bit more machinery
+than what we managed to show in this short introduction -- see e.g. \cite{TAPL} for 
+full details.}:
 \begin{align*}
 \msym{g} &= \lambda f.\lambda
 n.\mkw{if}\ \msym{eq}\ n\ \msym{0}\ \mkw{then}\ \msym{1}\ \mkw{else}\ (\msym{times}\ \msym{n}\,(f\,(\msym{pred}\ \msym{n}))) \\
 \msym{factorial} &= \msym{Y}\ \msym{g}
 \end{align*}
-TODO: evaluation of \sym{factorial} \sym{2}
+To illustrate the working of \sym{Y} let let us follow a single stage of evaluation of
+\sym{factorial} \sym{3}:
+
+\begin{tikzpicture}
+    \node(e1) at (0,10) {\sym{factorial} \sym{3}};
+    \node(e2) at (0,9)  {\sym{Y} \sym{g} \sym{3}};
+    \node(e3) at (0,8)  {$(\msym{h}\ \msym{h})\ \msym{3}$}; %%\msym{h}=\lambda x.\msym{g}\ (x\ x)
+    \node(e4) at (0,7)  {$\msym{g}\ (\msym{h}\ \msym{h})\ \msym{3}$};
+%%\msym{fct}=\msym{h}\ \,sym{h}
+    \node(e5) at (0,6)  {$\lambda n.\mkw{if}\ \msym{eq}\ n\ \msym{0}\ \mkw{then}\ \msym{1}\ \mkw{else}\ (\msym{times}\ \msym{n}\,(\msym{fct}\,(\msym{pred}\ \msym{n})))\ \msym{3}$};
+    \node(e6) at (0,5)  {$\msym{times}\ \msym{3}\ (\msym{fct}\ \msym{2})$}; %% TODO: rest
+    \node(e7) at (1,4)  {$(\msym{h}\ \msym{h})\ \msym{2}$};
+    \path[-stealth]
+      (e1) edge (e2)
+      (e2) edge (e3)
+      (e3) edge (e4)
+      (e4) edge (e5)
+      (e5) edge (e6)
+      ;
+\end{tikzpicture}
+\\
 In general, a recursive function \sym{f}, that in a language that supports
 direct recursion would be defined as
 \begin{align*}
