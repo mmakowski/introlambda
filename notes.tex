@@ -37,8 +37,8 @@ bug\cite{cve140160},
 while not life-threatening, had wide-ranging implications for the security of
 e-commerce and privacy of internet users.} do not inspire confidence in the 
 state of software engineering. The "software crisis" is a phenomenon recognised 
-by practitioners of the field. A number of ways to address the reliability issue 
-has been proposed, from reliance on programmer's 
+by practitioners of the field. Several ways of addressing the reliability issue 
+have been proposed: from reliance on programmer's 
 discipline\cite{cleancode}\cite{securecoding}, through tools that
 perform post-hoc validation of programs to ensure they do not contain suspicious
 coding patterns\cite{raf04}, to languages 
@@ -46,13 +46,12 @@ that restrict valid programs to ones whose properties can be formally proven.
 The latter approach relies on a body of 
 theoretical knowledge that can appear intimidating. It turns out, 
 however, that much of the required insight is built on systematic extensions of 
-a very simple formal system -- the lambda calculus. Familiarity with the 
-fundamentals of lambda calculus is a prerequisite for proficiency with modern 
-software engineering tools. 
+a very simple formal system -- the lambda calculus. 
 
-These notes aim to introduce lambda calculus in a 
-very informal manner. The only background assumed is that of general programming 
-experience.
+Arguably, familiarity with state-of-the-art tools is a matter of professionalism, 
+and understanding of the basics of lambda calculus will help us better
+appreciate what the tools from formal methods end of the spectrum have to
+offer.
 
 \section{Syntax}
 
@@ -130,11 +129,17 @@ a.a\,y)\ (\lambda b.b)$
 
 \subsection{Removal of abstraction under application}
 
-TODO: \emph{$\beta$-reduction}
+The basic operation that modifies the structure of the term is
+\emph{$\beta$-reduction}. It can be applied to every term or sub-term that is
+an application whose left-hand side is an abstraction:
+\begin{align*}
+(\lambda x.M)\ N\longrightarrow_\beta M[x/N]
+\end{align*}
+where $M[x/N]$ is term $M$ in which all free occurrences of $x$ have been
+replaced by term $N$.
 
 \paragraph{Example:} $(\lambda x.x\,y)\ (\lambda z.z)\longrightarrow_\beta
-(\lambda z.z)\ y\longrightarrow_\beta y$
-
+(\lambda z.z)\ y\longrightarrow_\beta y$\\
 In the first reduction, $\lambda x.$ is eliminated by substituting $\lambda z.z$ 
 for $x$, in the second, $\lambda z.$ is eliminated by substituting $y$ for $z$.
 
@@ -175,6 +180,7 @@ be multiple redexes in a given term:
     (s3.south west)--(s3.south east);
     \draw[-stealth] ($(s3.south)+(0,-5pt)$) to [out=-90,in=90] node{}(d3);
 \end{tikzpicture}
+\\
 
 The choice of the redex to be reduced next is up to us. Prescribing which redex
 should be chosen gives rise to a reduction strategy. For example:
@@ -195,7 +201,7 @@ So far we have discussed the syntax of lambda calculus without any mention of
 its semantics. The purpose of this restriction was to stress that all the
 constructs we will be building are defined as manipulation of term trees,
 and any meaning we might associate with them is secondary. That said,
-understanding the upcoming sections will be much easier with a mental model of
+the upcoming sections will be much easier to understand with a mental model of
 what a lambda term represents. It perhaps comes as no surprise that a lambda
 abstraction can be interpreted as an anonymous function. 
 
@@ -216,14 +222,17 @@ Lambda application is then simply application of the function represented by
 the first subterm to the argument represented by the second subterm. In this
 model, $\beta$-reduction is a method of function evaluation.
 
-\paragraph{Summary:} lambda abstractions can be treated as representing mathematical 
+\paragraph{Summary:} lambda abstractions can be interpreted as mathematical 
 functions.
 
 \section{Programming}
 
 We claimed that a lambda term can be treated as a computer program. To substantiate 
 this, let us see how familiar elements of programming languages can be represented 
-in lambda calculus.
+in lambda calculus\footnote{One definition of functional programming is 
+"programming with mathematical functions". By presenting how to program with
+lambda terms, which, we argued, represent such functions, we will demonstrate
+the basics of functional programming.}.
 
 \subsection{Conditionals}
 
@@ -236,7 +245,10 @@ where $C$ evaluates to either \sym{true} or \sym{false}, where \sym{true} and
 \sym{false} are some specific values chosen by us beforehand. If $C$ evaluates 
 to \sym{true} then the whole conditional expression evaluates to the result of 
 $T$, otherwise it evaluates to the result of $F$. To start with, let us choose 
-some lambda-terms that will represent \sym{true} and \sym{false}:
+some lambda-terms that will represent \sym{true} and \sym{false}\footnote{Note
+that the syntax $\msym{name} = T$ is not part of lambda calculus, it is just
+our way of giving meaningful names to terms. We can think of it as a
+preprocessor macro.}:
 \begin{align*}
 \msym{true}  &= \lambda t.\lambda f.t \\
 \msym{false} &= \lambda t.\lambda f.f \\
@@ -244,7 +256,7 @@ some lambda-terms that will represent \sym{true} and \sym{false}:
 With these in place, the conditional expression can be written as
 \begin{align*}
 \msym{test} &= \lambda c.\lambda t.\lambda f.c\,t\,f \\
-\mkw{if}\,C\,\mkw{then}\,T\,\mkw{else}\,F &\equiv \msym{test}\,C\,T\,F
+\mkw{if}\,C\,\mkw{then}\,T\,\mkw{else}\,F &= \msym{test}\,C\,T\,F
 \end{align*}
 It is easy to see that indeed, if $c$ is \sym{true} then $\beta$-reduction of
 $c\,t\,f$ will yield $t$ and if it is \sym{false} then it will reduce to $f$.
@@ -290,7 +302,7 @@ function \sym{pred} -- the inverse of \sym{succ}.}.
 
 \subsection{Repeated Calculation}
 
-With numbers and conditionals in place, our language is still severly
+With numbers and conditionals in place, our language is still severely
 restricted. For example, how would we write a factorial function? As a
 reminder, the mathematical definition of factorial is
 \begin{align*}
@@ -305,8 +317,8 @@ deal with this is \emph{fixed point operator}:
 \begin{align*}
 \msym{Y}=\lambda f.(\lambda x.f\,(x\,x))\,(\lambda x.f\,(x\,x))
 \end{align*}
-Intuitively, we construct a function parameterised by a function, then use
-\sym{Y} to feed the function into itself. For example factorial
+How does that help? Intuitively, we can construct a function parameterised by a 
+function, then use \sym{Y} to feed the function into itself. For example factorial
 can be defined as follows\footnote{Note that this definition is expressed 
 entirely in lambda calculus. We have
 previously shown how to encode \sym{if-then-else}, \sym{times} and numbers,
@@ -363,6 +375,9 @@ in lambda calculus can be defined as
 \begin{align*}
 \msym{f} = \msym{Y}\ (\lambda f.M(f))
 \end{align*}
+
+\paragraph{Summary:} we can encode common programming constructs such as
+conditionals, numbers and recursion as lambda terms.
 
 \section{Types}
 
