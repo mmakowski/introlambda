@@ -10,7 +10,7 @@
 \usepackage{qtree}
 \usepackage{tikz}
 \usepackage[normalem]{ulem}
-\usetikzlibrary{arrows,calc,decorations.pathreplacing,decorations.pathmorphing,matrix,shapes}
+\usetikzlibrary{arrows,calc,decorations.pathreplacing,matrix,shapes}
 
 \newcommand{\nonterm}[1]{$\left<#1\right>$}
 \newcommand{\alt}[0]{$|$}
@@ -21,8 +21,8 @@
 \newcommand{\centeredtab}[1]{\begin{center}\parbox{0cm}{\begin{tabbing}#1\end{tabbing}}\end{center}}
 \newcommand{\msout}[1]{\text{\sout{\ensuremath{#1}}}}
 
-\tikzset{wavy/.style={decorate, decoration={snake, segment length=2mm,
-amplitude=0.3mm}}}
+\pgfarrowsdeclarecombine{twostealth}{twostealth}%
+{stealth}{stealth}{stealth}{stealth}
 
 \begin{document}
 
@@ -209,15 +209,15 @@ $\beta$-reduction is \emph{confluent}: if a term $S$ can be reduced in two
 different ways, producing terms $T$ and $U$, then $T$ and $U$ can both be reduced 
 to some common term $V$:
 \begin{center}
-\begin{tikzpicture}[->,>=stealth',node distance=2cm]
+\begin{tikzpicture}[->,>=twostealth,node distance=2cm]
     \node(S) {$S$};
     \node(T) [below left of=S] {$T$};
     \node(U) [below right of=S] {$U$};
     \node(V) [below left of=U] {$V$};
-    \draw[wavy] (S) -- (T);
-    \draw[wavy] (S) -- (U);
-    \draw[wavy] (T) -- (V);
-    \draw[wavy] (U) -- (V);
+    \draw (S) -- (T);
+    \draw (S) -- (U);
+    \draw[densely dotted] (T) -- (V);
+    \draw[densely dotted] (U) -- (V);
 \end{tikzpicture}
 \end{center}
 This is formalised as \emph{Church-Rosser theorem} and is an
