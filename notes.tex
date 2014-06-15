@@ -9,6 +9,7 @@
 \usepackage{proof}
 \usepackage{qtree}
 \usepackage{tikz}
+\usepackage[normalem]{ulem}
 \usetikzlibrary{arrows,calc,decorations.pathreplacing,decorations.pathmorphing,matrix,shapes}
 
 \newcommand{\nonterm}[1]{$\left<#1\right>$}
@@ -18,6 +19,7 @@
 \newcommand{\sym}[1]{\texttt{#1}}
 \newcommand{\msym}[1]{\mathtt{#1}}
 \newcommand{\centeredtab}[1]{\begin{center}\parbox{0cm}{\begin{tabbing}#1\end{tabbing}}\end{center}}
+\newcommand{\msout}[1]{\text{\sout{\ensuremath{#1}}}}
 
 \tikzset{wavy/.style={decorate, decoration={snake, segment length=2mm,
 amplitude=0.3mm}}}
@@ -283,7 +285,7 @@ our way of giving meaningful names to terms. We can think of it as a
 preprocessor macro.}:
 \begin{align*}
 \msym{true}  &= \lambda t.\lambda f.t \\
-\msym{false} &= \lambda t.\lambda f.f \\
+\msym{false} &= \lambda t.\lambda f.f
 \end{align*}
 With these in place, the conditional expression can be written as
 \begin{align*}
@@ -301,7 +303,7 @@ Peano, we can specify the set of natural numbers by means of a chosen value
 its successor. In lambda calculus these can be encoded as follows:
 \begin{align*}
 \msym{0}    &= \lambda s.\lambda z.z \\
-\msym{succ} &= \lambda n.\lambda s.\lambda z.s\,(n\,s\,z) \\
+\msym{succ} &= \lambda n.\lambda s.\lambda z.s\,(n\,s\,z)
 \end{align*}
 This is what terms representing numbers look like with these 
 definitions\footnote{Seeing how Peano arithmetic can be defined in lambda calculus,
@@ -311,8 +313,7 @@ basis, one could ask: can untyped lambda calculus be treated as a foundational
 theory in which all known mathematical concepts can be stated? Alonso Church had 
 that in mind when he conceived lambda calculus, but it was soon proven by his 
 studens, Kleene and Rosser\cite{wkrp}, that in fact the calculus as we present it here is 
-inconsistent, i.e. any proposition can be proven in it. TODO: why does it not
-concern us?}:
+inconsistent, i.e. any proposition can be proven in it.}:
 \centeredtab{
 \sym{0} \= $=$ \= ~~~~~~~~~    \= ~~~ \= $\lambda s.\lambda z.z$    \\
 \sym{1} \> $=$ \> \sym{succ 0} \> $=$ \> $\lambda s.\lambda z.s\,z$ \\
@@ -320,13 +321,12 @@ concern us?}:
 \sym{3} \> $=$ \> \sym{succ 2} \> $=$ \> $\lambda s.\lambda z.s\,(s\,(s\,z))$ \\
 $\vdots$ \\
 \sym{n} \> $=$ \> \> \> $\lambda s.\lambda z\underbrace{s\,(\dots s\,(s}_n\,z)\dots)$
-\\
 }
 Definition of arithmetics in this representation is reasonably straightforward
 in case of addition and multiplication:
 \begin{align*}
 \msym{plus}  &= \lambda m.\lambda n.\lambda s. \lambda z.m\ s\ (n\ s\ z) \\
-\msym{times} &= \lambda m.\lambda n.m\ (\msym{plus}\ n)\ \msym{0} \\
+\msym{times} &= \lambda m.\lambda n.m\ (\msym{plus}\ n)\ \msym{0}
 \end{align*}
 Subtraction, however, turns out to be much more tricky to define\footnote{If
 you attempt to do this as an exercise you might want to start with defining a
@@ -428,26 +428,47 @@ where $\sigma\in\mathbb{T}$. Notational convention is that arrow binds to the
 right, so we can write $\sigma\rightarrow\tau\rightarrow\rho$ instead of 
 $(\sigma\rightarrow (\tau\rightarrow\rho))$.
 
-Lambda terms can be assigned types. If $M$ is a lambda term containing a free 
-occurrence of variable $x$ then the typing of $M$ depends on the type of $x$. 
-This is written:
-\begin{align*}
-\{x:\sigma\}\vdash M:\tau
-\end{align*} 
-meaning that if $x$ has the type $\sigma$ then $M$ can be assigned the type
-$\tau$. In general, $\Gamma\vdash M:\sigma$ means that $M$ can be assigned type
-$\sigma$ under the set of typing assumptions $\Gamma$.
-
-Type assignment is done by following the structure of the lambda term,
-with a typing rule for every type of the AST node:
+Lambda terms can be assigned types by following the structure of the AST. We 
+start with the leaves of the tree, i.e. variables, and make note of assumptions 
+about their types; for example, $x:\sigma$ means that we assume variable $x$ to
+have type $\sigma$. We then proceed up the tree, applying the following two
+rules to inner nodes:
 \centeredtab{
-\infer{\{x:\sigma\}\vdash x:\sigma}{}~~~~~~~~~~~~~~~~~~~~~~ \= (variable) \\\\
-\infer{\Gamma\vdash \lambda
-x.M:\sigma\rightarrow\tau}{\Gamma\cup \{x:\sigma\}\vdash M:\tau} \>
-(abstraction) \\\\
-\infer{\Gamma\vdash M\,N:\tau}{\Gamma\vdash
-M:\sigma\rightarrow\tau & \Gamma\vdash N:\sigma} \> (application)
+\infer{M\,N:\tau}{M:\sigma\rightarrow\tau & & N:\sigma}~~~~~~~~~~~           \= (application) \\\\\\ 
+\infer{\lambda x.M:\sigma\rightarrow\tau}{\infer*{M:\tau}{\msout{x:\sigma}}} \> (abstraction)
 }
+In abstraction rule, we need to first make an assumption about the type of 
+variable $x$ that might occur free in term $M$. Once we establish the type 
+of $M$ to be $\tau$ based on this assumption, we use the assumed type as the 
+type of argument of the abstraction, at which point the assumption is no longer 
+needed -- hence the crossing out.
+
+As we proceed applying the rules, we might need to refine the
+assumptions. If we initially assumed $x:\sigma$ and $f:\tau$ but then come
+across application $f\,x$ then we know from the rule for application that the
+type of $f$ must be an arrow type, so we have to refine the assumption to
+$f:\sigma\rightarrow\rho$.
+
+\paragraph{Example:} what is the type of $\lambda f.\lambda x.f(f\,x)$?
+\begin{align*}
+\infer[(abs)]{\lambda f.\lambda x.f(f\,x):(\sigma\rightarrow\sigma)\rightarrow\sigma\rightarrow\sigma}{
+  \infer[(abs)]{\lambda x.f(f\,x):\sigma\rightarrow\sigma}{
+    \infer[(app)]{f(f\,x):\sigma}{\msout{f:\sigma\rightarrow\sigma} &
+      \infer[(app)]{f\,x:\sigma}{\msout{f:\sigma\rightarrow\sigma} & \msout{x:\sigma}}
+    }
+  }
+}
+\end{align*}
+The first use of application rule eliminated the need for $x:\sigma$
+assumption, the second eliminated $f:\sigma\rightarrow\sigma$.
+\\
+
+We write $\Gamma\vdash M:\sigma$ to state that there exists a derivation with 
+the set of initial assumptions $\Gamma$ that assigns type $\sigma$ to term $M$. 
+Notational convetion is that when the $\Gamma$ is empty it
+can be omitted altogether, so for the example above we can write
+$\vdash \lambda f.\lambda x.f(f\,x):(\sigma\rightarrow\sigma)\rightarrow\sigma\rightarrow\sigma$.
+
 
 TODO: consequences of introduction of types
 
