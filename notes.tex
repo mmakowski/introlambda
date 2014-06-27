@@ -417,7 +417,7 @@ might come as no surprise that a record can be encoded as a lambda abstraction
 -- and apply \kw{Y} to that record. See \cite{TAPL} for details.} as lambda 
 terms.
 
-\section{Types}
+\section{Types}\label{types}
 
 If $\mathbb{T}$ is the set of type variables then the grammar of types is:
 \begin{tabbing}
@@ -469,8 +469,21 @@ Notational convetion is that when the $\Gamma$ is empty it
 can be omitted altogether, so for the example above we can write
 $\vdash \lambda f.\lambda x.f(f\,x):(\sigma\rightarrow\sigma)\rightarrow\sigma\rightarrow\sigma$.
 
+Lambda calculus whose set of terms is restricted to terms that can be
+assigned types according to the rules above is called \emph{simply-typed lambda
+calculus} and denoted by $\lambda_\rightarrow$. The typing restriction is
+severe: it only admits terms whose $\beta$-reduction terminates. For example, recursion
+cannot be implemented in this calculus.\footnote{This restriction can be seen as a good
+thing, since it eliminates a class of terms which we might not want to write, for
+example those that loop indefinitely, or as a bad thing, since it prevents us
+from writing useful functions such as the Fibonacci sequence. In practice this
+is the tension that programming language designers grapple with: provide a type
+system that eliminates as many undesirable programs as possible while
+eliminating as few desirable programs as possible.}
 
-TODO: consequences of introduction of types
+\paragraph{Summary:} lambda terms can be assigned types, which are built from
+type variables and arrows. If we insist that only terms that have a type are 
+valid, we place limits on how the reduction of such terms can behave.
 
 \section{Curry-Howard Correspondence}
 
@@ -478,8 +491,10 @@ TODO
 
 \section{More Types}
 
-More elaborate calculi build on top of simply-typed lambda calculus. The
-diagram below shows some of the extensions.
+Simply-typed lambda calculus discussed in \ref{types} was very restrictive. More 
+elaborate calculi build on top of simply-typed lambda calculus by providing
+extensions that allow typing of more terms. The diagram below shows some of the 
+extensions.
 \begin{center}
 \begin{tikzpicture}
   \matrix(m)[matrix of math nodes, row sep=3em, column sep=3em]{
