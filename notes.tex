@@ -464,10 +464,15 @@ assumption, the second eliminated $f:\sigma\rightarrow\sigma$.
 \\
 
 We write $\Gamma\vdash M:\sigma$ to state that there exists a derivation with 
-the set of initial assumptions $\Gamma$ that assigns type $\sigma$ to term $M$. 
+the set of assumptions (context) $\Gamma$ that assigns type $\sigma$ to term $M$. 
 Notational convetion is that when the $\Gamma$ is empty it
 can be omitted altogether, so for the example above we can write
-$\vdash \lambda f.\lambda x.f(f\,x):(\sigma\rightarrow\sigma)\rightarrow\sigma\rightarrow\sigma$.
+$\vdash \lambda f.\lambda
+x.f(f\,x):(\sigma\rightarrow\sigma)\rightarrow\sigma\rightarrow\sigma$\footnote{This
+way of inferring types of terms has been introduced by Curry. An alternative
+system, by Church, requires explicit type declarations. These two calculi
+differ in some of their properties, but the type derivations in both are essentially
+equivalent\cite{su99}.}.
 
 Lambda calculus whose set of terms is restricted to terms that can be
 assigned types according to the rules above is called \emph{simply-typed lambda
@@ -562,6 +567,8 @@ Calculus},
 \url{http://www.cse.chalmers.se/research/group/logic/TypesSS05/Extra/geuvers.pdf}
 \bibitem{b91} Henk Berendregt \emph{An Introduction to Generalized Type Systems}, 
 \url{http://www.diku.dk/hjemmesider/ansatte/henglein/papers/barendregt1991.pdf}
+\bibitem{LCSS} Henk Berendregt \emph{The Lambda Calculus, its Syntax and
+Semantics}
 \bibitem{grue97} Klaus Grue, \emph{Lambda calculus as a foundation of mathematics},
 \url{http://www.diku.dk/~grue/papers/church/church.html}
 \bibitem{mco} NASA, \emph{Mars Climate Orbiter Team Finds Likely Cause of Loss}, 
