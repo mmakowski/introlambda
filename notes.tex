@@ -12,6 +12,8 @@
 \usepackage[normalem]{ulem}
 \usetikzlibrary{arrows,calc,decorations.pathreplacing,matrix,shapes}
 
+\bibliographystyle{alpha}
+
 \newcommand{\nonterm}[1]{$\left<#1\right>$}
 \newcommand{\alt}[0]{$|$}
 \newcommand{\kw}[1]{{\bf \texttt{#1}}}
@@ -134,7 +136,7 @@ $\alpha$-convert any term so that this is true.
 \paragraph{Example:} $(\lambda x.x\,y)\ (\lambda x.x)\longleftrightarrow_\alpha(\lambda
 a.a\,y)\ (\lambda b.b)$
 
-\subsection{Removal of abstraction under application}
+\subsection{Removal of abstraction under application}\label{beta-reduction}
 
 The basic operation that modifies the structure of the term is
 \emph{$\beta$-reduction}. It can be applied to every term or sub-term that is
@@ -477,7 +479,9 @@ equivalent\cite{su99}.}.
 Lambda calculus whose set of terms is restricted to terms that can be
 assigned types according to the rules above is called \emph{simply-typed lambda
 calculus} and denoted by $\lambda_\rightarrow$. The typing restriction is
-severe: it only admits terms whose $\beta$-reduction terminates. For example, recursion
+severe: it only admits terms whose $\beta$-reduction terminates with a term that 
+cannot be reduced further\footnote{This property is called \emph{strong normalisation}.}. 
+For example, recursion
 cannot be implemented in this calculus.\footnote{This restriction can be seen as a good
 thing, since it eliminates a class of terms which we might not want to write, for
 example those that loop indefinitely, or as a bad thing, since it prevents us
@@ -492,11 +496,36 @@ valid, we place limits on how the reduction of such terms can behave.
 
 \section{Curry-Howard Correspondence}
 
-TODO
+In classical propositional logic every formula is either true or false.
+\emph{Intuitionistic logic} is an alternative system, where a statement is true
+if it can be proven constructively\footnote{For this reason intuitionistic logic 
+is also known as \emph{constructive logic}.} and false if a contradiction can
+be inferred from it. If neither of these is the case the truth of the statement
+remains unknown. A consequence of intuitionistic approach is that some 
+of classical tautologies, such as the law of excluded middle, $p\vee\neg p$, cannot 
+be proven.
+
+Proofs in intuitionistic logic are trees with the formula to be proven in the root,
+axioms in the leaves and inner nodes containig formulae that can be inferred
+from children using a set of prescribed rules. As such, these proofs directly
+correspond to computations. As we argued in \ref{beta-reduction}, so do lambda
+terms. Furthermore, types of simply-typed lambda calculus can be read as statements 
+in the fragment of intuitionsitic logic that uses implication ($\rightarrow$) as 
+the only logical connective. It turns out that the terms in this calculus can
+be interpreted as proofs of the propositions represented by their types. For a
+hint of how such proofs may look see the derivation tree for
+$\lambda f.\lambda x.f(f\,x):(\sigma\rightarrow\sigma)\rightarrow\sigma\rightarrow\sigma$
+in section \ref{types}.
+
+The Curry-Howard correspondence does not end on $\lambda_\rightarrow$. It can
+be extended to a huge variety of type systems and logics and this fact has been 
+exploited to transfer results between the fields of logic and computer 
+science\footnote{For an example of practical application of Curry-Howard correspondence 
+see \cite{s11}.}.
 
 \section{More Types}
 
-Simply-typed lambda calculus discussed in \ref{types} was very restrictive. More 
+Simply-typed lambda calculus discussed in section \ref{types} was very restrictive. More 
 elaborate calculi build on top of simply-typed lambda calculus by providing
 extensions that allow typing of more terms. The diagram below shows some of the 
 extensions.
@@ -553,40 +582,43 @@ A direct inspiration for this talk was the presentation of lambda calculus in
 system in easy to follow steps, starting from untyped lambda calculus. 
 
 For a succinct but rigorous introduction to lambda calculus see \cite{bb00}.
-
-TODO
+\cite{su99} contains a complete formal introduction to lambda calculus and an
+extensive material on Curry-Howard correspondence.
 
 \begin{thebibliography}{9}
-\bibitem{TAPL} Benjamin C. Pierce, \emph{Types and Programming Languages},
+\bibitem[TAPL]{TAPL} Benjamin C. Pierce, \emph{Types and Programming Languages},
 \url{http://www.cis.upenn.edu/~bcpierce/tapl/}
-\bibitem{su99} Morten Heine B. Sørensen, Paweł Urzyczyn, \emph{Lectures on the
+\bibitem[SU99]{su99} Morten Heine B. Sørensen, Paweł Urzyczyn, \emph{Lectures on the
 Curry-Howard Isomorphism}, 
 \url{http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.17.7385}
-\bibitem{bb00} Henk Berendregt, Erik Barendsen, \emph{Introduction to Lambda
+\bibitem[BB00]{bb00} Henk Berendregt, Erik Barendsen, \emph{Introduction to Lambda
 Calculus}, 
 \url{http://www.cse.chalmers.se/research/group/logic/TypesSS05/Extra/geuvers.pdf}
-\bibitem{b91} Henk Berendregt \emph{An Introduction to Generalized Type Systems}, 
+\bibitem[Berendregt91]{b91} Henk Berendregt \emph{An Introduction to Generalized Type Systems}, 
 \url{http://www.diku.dk/hjemmesider/ansatte/henglein/papers/barendregt1991.pdf}
-\bibitem{LCSS} Henk Berendregt \emph{The Lambda Calculus, its Syntax and
+\bibitem[LCSS]{LCSS} Henk Berendregt \emph{The Lambda Calculus, its Syntax and
 Semantics}
-\bibitem{grue97} Klaus Grue, \emph{Lambda calculus as a foundation of mathematics},
+\bibitem[Sabin11]{s11} Miles Sabin, \emph{Unboxed union types in Scala via the
+Curry-Howard isomorphism}, 
+\url{http://www.chuusai.com/2011/06/09/scala-union-types-curry-howard/}
+\bibitem[Grue97]{grue97} Klaus Grue, \emph{Lambda calculus as a foundation of mathematics},
 \url{http://www.diku.dk/~grue/papers/church/church.html}
-\bibitem{mco} NASA, \emph{Mars Climate Orbiter Team Finds Likely Cause of Loss}, 
+\bibitem[MCO]{mco} NASA, \emph{Mars Climate Orbiter Team Finds Likely Cause of Loss}, 
 \url{http://www.jpl.nasa.gov/news/releases/99/mcoloss1.html}
-\bibitem{therac25} Nancy Leveson, Clark S. Turner, 
+\bibitem[Therac25]{therac25} Nancy Leveson, Clark S. Turner, 
 \emph{An Investigation of the Therac-25 Accidents}
 \url{http://courses.cs.vt.edu/cs3604/lib/Therac_25/Therac_1.html}
-\bibitem{cve141266} \emph{CVE-2014-1266},
+\bibitem[CVE-2014-1266]{cve141266} \emph{CVE-2014-1266},
 \url{http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-1266}
-\bibitem{cve140160} \emph{CVE-2014-0160}, 
+\bibitem[CVE-2014-0160]{cve140160} \emph{CVE-2014-0160}, 
 \url{https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-0160}
-\bibitem{cleancode} Robert C. Martin, \emph{Clean Code}
-\bibitem{securecoding} various authors, \emph{CERT C Coding Standard}, 
+\bibitem[Clean Code]{cleancode} Robert C. Martin, \emph{Clean Code}
+\bibitem[CERT]{securecoding} various authors, \emph{CERT C Coding Standard}, 
 \url{https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=524435}
-\bibitem{raf04} Nick Rutar, Christian B. Almazan, Jeffrey S. Foster, \emph{A
+\bibitem[CBFTJ]{raf04} Nick Rutar, Christian B. Almazan, Jeffrey S. Foster, \emph{A
 Comparison of Bug Finding Tools for Java}, 
 \url{http://www.cs.umd.edu/~jfoster/papers/issre04.pdf}
-\bibitem{wkrp} Wikipedia, \emph{Kleene-Rosser paradox},
+\bibitem[KRP]{wkrp} Wikipedia, \emph{Kleene-Rosser paradox},
 \url{https://en.wikipedia.org/wiki/Kleene-Rosser_paradox}
 \end{thebibliography}
 
