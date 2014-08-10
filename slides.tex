@@ -1,5 +1,6 @@
 \documentclass{beamer}
 
+\usepackage{qtree}
 \usepackage{tikz}
 \usepackage[UKenglish]{isodate}
 \usetikzlibrary{mindmap,trees}
@@ -78,7 +79,81 @@ where $x\in \mathbb{X}$ -- the set of variables
 % -------------------------------------------
 \begin{frame}
 \frametitle{Syntax}
-TODO: examples
+\begin{tabbing}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \= ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \\
+$v_1$                              \>                                      \\
+\end{tabbing}
+\end{frame}
+% -------------------------------------------
+\begin{frame}
+\frametitle{Syntax}
+\begin{tabbing}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \= ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \\
+$v_1$                              \> \Tree [.{var $v_1$} ]                \\
+\end{tabbing}
+\end{frame}
+% -------------------------------------------
+\begin{frame}
+\frametitle{Syntax}
+\begin{tabbing}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \= ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \\
+$x\ y$                 \>                                      \\
+\end{tabbing}
+\end{frame}
+% -------------------------------------------
+\begin{frame}
+\frametitle{Syntax}
+\begin{tabbing}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \= ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \\
+$x\ y$                             \> \Tree [.app {var $x$} {var $y$} ]    \\
+\end{tabbing}
+\end{frame}
+% -------------------------------------------
+\begin{frame}
+\frametitle{Syntax}
+\begin{tabbing}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \= ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \\
+$\lambda a.b$                      \>                                      \\
+\end{tabbing}
+\end{frame}
+% -------------------------------------------
+\begin{frame}
+\frametitle{Syntax}
+\begin{tabbing}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \= ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \\
+$\lambda a.b$                      \> \Tree [.{abs $a$} {var $b$} ]        \\
+\end{tabbing}
+\end{frame}
+% -------------------------------------------
+\begin{frame}
+\frametitle{Syntax}
+\begin{tabbing}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \= ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \\
+$(\lambda a.\lambda b.a)\ c\ (\lambda b.b)$ \>                             \\
+\end{tabbing}
+\end{frame}
+% -------------------------------------------
+\begin{frame}
+\frametitle{Syntax}
+\begin{tabbing}
+\nonterm{term} \= ::=  \= $x$~~~~~~~~~~~~~~~~~~~~~~~~~~~~  \= (variable)    \\
+               \> \galt \> ($\lambda x.$\nonterm{term})    \> (abstraction) \\
+               \> \galt \> (\nonterm{term} \nonterm{term}) \> (application) 
+\end{tabbing}
+\end{frame}
+% -------------------------------------------
+\begin{frame}
+\frametitle{Syntax}
+\begin{tabbing}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \= ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \\
+$(\lambda a.\lambda b.a)\ c\ (\lambda b.b)$ \> \Tree [.app [.app [.{abs $a$} 
+[.{abs $b$} {var $a$} ] ] {var $c$} ] [.{abs $b$} {var $b$} ] ]             \\
+\end{tabbing}
+\end{frame}
+% -------------------------------------------
+\begin{frame}
+\frametitle{Rewriting}
+TODO
 \end{frame}
 % -------------------------------------------
 \begin{frame}
