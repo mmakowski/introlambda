@@ -169,7 +169,25 @@ $(\lambda x.x\,y)\ (\lambda z.z)\longrightarrow_\beta(\lambda z.z)\ y\longrighta
 \frametitle{Rewriting}
 \begin{center}
 
-TODO: multiple redexes
+TODO: multiple redexes, Church-Rosser
+
+\end{center}
+\end{frame}
+% -------------------------------------------
+\begin{frame}
+\frametitle{Rewriting}
+\begin{center}
+
+TODO: $\Omega$
+
+\end{center}
+\end{frame}
+% -------------------------------------------
+\begin{frame}
+\frametitle{Semantics}
+\begin{center}
+
+TODO: functions
 
 \end{center}
 \end{frame}
@@ -223,6 +241,30 @@ TODO: multiple redexes
 \end{frame}
 % -------------------------------------------
 \begin{frame}
+\frametitle{Curry-Howard Correspondence}
+\begin{center}
+\begin{tikzpicture}
+\path[mindmap, 
+      concept color=gray,text=white,
+      every node/.style={minimum size=0pt,text width=30pt},
+      level 1 concept/.append style={level distance=100,sibling angle=120},
+      level 2 concept/.append style={level distance=80,sibling angle=120}
+     ]
+    node[concept] {$\lambda$}
+    [clockwise from=0]
+    child[concept] {
+      node[concept] {$\lambda_\rightarrow$}
+      [clockwise from=60]
+      child[concept color=lightgray!50!white,text=gray] { node[concept] {$F_\omega$} }
+      child[concept color=orange] { node[concept] {C-H} }
+    }  
+    child[concept color=lightgray!50!white,text=gray] { node[concept] {Y} }
+    child[concept color=lightgray!50!white,text=gray] { node[concept] {SKI} };
+\end{tikzpicture}
+\end{center}
+\end{frame}
+% -------------------------------------------
+\begin{frame}
 \frametitle{More Types}
 \begin{center}
 \begin{tikzpicture}
@@ -247,7 +289,7 @@ TODO: multiple redexes
 \end{frame}
 % -------------------------------------------
 \begin{frame}
-\frametitle{More Types}
+\frametitle{The Lambda Cube}
 \begin{center}
 \begin{tikzpicture}
   \matrix(m)[matrix of math nodes, row sep=3em, column sep=3em, ampersand replacement=\&]{
@@ -263,7 +305,7 @@ TODO: multiple redexes
 \end{frame}
 % -------------------------------------------
 \begin{frame}
-\frametitle{More Types}
+\frametitle{The Lambda Cube}
 \begin{center}
 \begin{tikzpicture}
   \matrix(m)[matrix of math nodes, row sep=3em, column sep=3em, ampersand replacement=\&]{
@@ -285,7 +327,7 @@ TODO: multiple redexes
 \end{frame}
 % -------------------------------------------
 \begin{frame}
-\frametitle{More Types}
+\frametitle{Subtyping}
 \begin{center}
 \begin{tikzpicture}
   \matrix(m)[matrix of math nodes, row sep=3em, column sep=3em, ampersand replacement=\&]{
@@ -309,7 +351,7 @@ TODO: multiple redexes
 \end{frame}
 % -------------------------------------------
 \begin{frame}
-\frametitle{More Types}
+\frametitle{Subtyping}
 \begin{center}
 \begin{tikzpicture}
   \matrix(m)[matrix of math nodes, row sep=3em, column sep=3em, ampersand replacement=\&]{
