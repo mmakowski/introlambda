@@ -3,7 +3,7 @@
 \usepackage{qtree}
 \usepackage{tikz}
 \usepackage[UKenglish]{isodate}
-\usetikzlibrary{mindmap,trees}
+\usetikzlibrary{arrows,calc,decorations.pathreplacing,matrix,shapes,mindmap,trees}
 \usecolortheme{dove} 
 \setbeamertemplate{navigation symbols}{}
 
@@ -153,7 +153,25 @@ $(\lambda a.\lambda b.a)\ c\ (\lambda b.b)$ \> \Tree [.app [.app [.{abs $a$}
 % -------------------------------------------
 \begin{frame}
 \frametitle{Rewriting}
-TODO
+\begin{center}
+$(\lambda x.x\,y)\ (\lambda x.x)\longleftrightarrow_\alpha(\lambda a.a\,y)\ (\lambda b.b)$
+\end{center}
+\end{frame}
+% -------------------------------------------
+\begin{frame}
+\frametitle{Rewriting}
+\begin{center}
+$(\lambda x.x\,y)\ (\lambda z.z)\longrightarrow_\beta(\lambda z.z)\ y\longrightarrow_\beta y$
+\end{center}
+\end{frame}
+% -------------------------------------------
+\begin{frame}
+\frametitle{Rewriting}
+\begin{center}
+
+TODO: multiple redexes
+
+\end{center}
 \end{frame}
 % -------------------------------------------
 \begin{frame}
@@ -203,5 +221,120 @@ TODO
 \end{tikzpicture}
 \end{center}
 \end{frame}
+% -------------------------------------------
+\begin{frame}
+\frametitle{More Types}
+\begin{center}
+\begin{tikzpicture}
+\path[mindmap, 
+      concept color=gray,text=white,
+      every node/.style={minimum size=0pt,text width=30pt},
+      level 1 concept/.append style={level distance=100,sibling angle=120},
+      level 2 concept/.append style={level distance=80,sibling angle=120}
+     ]
+    node[concept] {$\lambda$}
+    [clockwise from=0]
+    child[concept] {
+      node[concept] {$\lambda_\rightarrow$}
+      [clockwise from=60]
+      child[concept color=orange] { node[concept] {$F_\omega$} }
+      child[concept color=lightgray!50!white,text=gray] { node[concept] {C-H} }
+    }  
+    child[concept color=lightgray!50!white,text=gray] { node[concept] {Y} }
+    child[concept color=lightgray!50!white,text=gray] { node[concept] {SKI} };
+\end{tikzpicture}
+\end{center}
+\end{frame}
+% -------------------------------------------
+\begin{frame}
+\frametitle{More Types}
+\begin{center}
+\begin{tikzpicture}
+  \matrix(m)[matrix of math nodes, row sep=3em, column sep=3em, ampersand replacement=\&]{
+                 \& \vphantom{F^\omega_{<:}}       \&                     \& \vphantom{\lambda\omega}             \&            \& \vphantom{\lambda P\omega}      \\
+    \vphantom{F_{<:}}       \&                     \& \lambda 2           \&                           \& \vphantom{\lambda P2} \&                      \\
+                 \&                     \&                     \& \lambda\underline{\omega} \&            \& \vphantom{\lambda P\underline{\omega}} \\
+    \vphantom{\lambda_{<:}} \&                     \& \lambda_\rightarrow \&                           \& \lambda P  \&                      \\
+  };
+  \path[-stealth]
+    (m-4-3) edge (m-2-3) edge (m-4-5) edge (m-3-4);
+\end{tikzpicture}
+\end{center}
+\end{frame}
+% -------------------------------------------
+\begin{frame}
+\frametitle{More Types}
+\begin{center}
+\begin{tikzpicture}
+  \matrix(m)[matrix of math nodes, row sep=3em, column sep=3em, ampersand replacement=\&]{
+                 \& \vphantom{F^\omega_{<:}}       \&                     \& \lambda\omega             \&            \& \lambda P\omega      \\
+    \vphantom{F_{<:}}       \&                     \& \lambda 2           \&                           \& \lambda P2 \&                      \\
+                 \&                     \&                     \& \lambda\underline{\omega} \&            \& \lambda P\underline{\omega} \\
+    \vphantom{\lambda_{<:}} \&                     \& \lambda_\rightarrow \&                           \& \lambda P  \&                      \\
+  };
+  \path[-stealth]
+    (m-4-3) edge (m-2-3) edge (m-4-5) edge [densely dotted] (m-3-4)
+    (m-3-4) edge [densely dotted] (m-1-4) edge [densely dotted] (m-3-6)
+    (m-2-3) edge (m-1-4) edge [-,line width=6pt,draw=white] (m-2-5) edge (m-2-5)
+    (m-4-5) edge (m-3-6) edge [-,line width=6pt,draw=white] (m-2-5) edge (m-2-5)
+    (m-1-4) edge (m-1-6)
+    (m-2-5) edge (m-1-6)
+    (m-3-6) edge (m-1-6);
+\end{tikzpicture}
+\end{center}
+\end{frame}
+% -------------------------------------------
+\begin{frame}
+\frametitle{More Types}
+\begin{center}
+\begin{tikzpicture}
+  \matrix(m)[matrix of math nodes, row sep=3em, column sep=3em, ampersand replacement=\&]{
+                 \& \vphantom{F^\omega_{<:}}       \&                     \& \lambda\omega             \&            \& \lambda P\omega      \\
+    \vphantom{F_{<:}}       \&                     \& \lambda 2           \&                           \& \lambda P2 \&                      \\
+                 \&                     \&                     \& \lambda\underline{\omega} \&            \& \lambda P\underline{\omega} \\
+    \lambda_{<:} \&                     \& \lambda_\rightarrow \&                           \& \lambda P  \&                      \\
+  };
+  \path[-stealth]
+    (m-4-3) edge (m-2-3) edge (m-4-5) edge [densely dotted] (m-3-4)
+    (m-3-4) edge [densely dotted] (m-1-4) edge [densely dotted] (m-3-6)
+    (m-2-3) edge (m-1-4) edge [-,line width=6pt,draw=white] (m-2-5) edge (m-2-5)
+    (m-4-5) edge (m-3-6) edge [-,line width=6pt,draw=white] (m-2-5) edge (m-2-5)
+    (m-1-4) edge (m-1-6)
+    (m-2-5) edge (m-1-6)
+    (m-3-6) edge (m-1-6)
+    % end of cube edges
+    (m-4-3) edge (m-4-1);
+\end{tikzpicture}
+\end{center}
+\end{frame}
+% -------------------------------------------
+\begin{frame}
+\frametitle{More Types}
+\begin{center}
+\begin{tikzpicture}
+  \matrix(m)[matrix of math nodes, row sep=3em, column sep=3em, ampersand replacement=\&]{
+                 \& F^\omega_{<:}       \&                     \& \lambda\omega             \&            \& \lambda P\omega      \\
+    F_{<:}       \&                     \& \lambda 2           \&                           \& \lambda P2 \&                      \\
+                 \&                     \&                     \& \lambda\underline{\omega} \&            \& \lambda P\underline{\omega} \\
+    \lambda_{<:} \&                     \& \lambda_\rightarrow \&                           \& \lambda P  \&                      \\
+  };
+  \path[-stealth]
+    (m-4-3) edge (m-2-3) edge (m-4-5) edge [densely dotted] (m-3-4)
+    (m-3-4) edge [densely dotted] (m-1-4) edge [densely dotted] (m-3-6)
+    (m-2-3) edge (m-1-4) edge [-,line width=6pt,draw=white] (m-2-5) edge (m-2-5)
+    (m-4-5) edge (m-3-6) edge [-,line width=6pt,draw=white] (m-2-5) edge (m-2-5)
+    (m-1-4) edge (m-1-6)
+    (m-2-5) edge (m-1-6)
+    (m-3-6) edge (m-1-6)
+    % end of cube edges
+    (m-4-3) edge (m-4-1)
+    (m-4-1) edge (m-2-1)
+    (m-2-3) edge (m-2-1)
+    (m-2-1) edge (m-1-2)
+    (m-1-4) edge (m-1-2);
+\end{tikzpicture}
+\end{center}
+\end{frame}
+% -------------------------------------------
 
 \end{document}
