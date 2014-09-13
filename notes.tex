@@ -573,7 +573,63 @@ which object orientation can be modelled.
 
 \section{Combinatory Logic}
 
-TODO
+Let us define the following two combinators:
+\begin{align*}
+\msym{K} &= \lambda x.\lambda y.x \\
+\msym{S} &= \lambda x.\lambda y.\lambda z.x z (y z)
+\end{align*}
+First, notice that the identity function, $\lambda x.x$, can be expressed as 
+$\msym{S}\,\msym{K}\,\msym{K}$. We will denote this as $I$. It turns out that any 
+lambda term can be expressed as a sequence of applications 
+of \sym{S} and \sym{K}\footnote{More precisely, for any lambda term $T$ there exists an
+expression $U$ that consist only of application of \sym{S} and \sym{K} that is 
+\textit{extensionally equivalent} to $T$, i.e. for any term $V$, application $TV$ can be
+$\beta$-reduced to the same term as $UV$.}. We can define a translation function
+$T$ as follows:
+\begin{align*}
+T[\msym{K}]    &= \msym{K} \\
+T[\msym{S}]    &= \msym{S} \\
+T[x]           &= x \\
+T[(E_1\,E_2)]  &= (T[E1]\,T[E2]) \\
+T[\lambda x.E] &= \begin{cases}
+    \text{if $x$ occurs free in $E$:} & \begin{cases}
+        \text{if $E=x$:}             & \msym{I},\\
+        \text{if $E=\lambda y.E_1$:} & T[\lambda x.T[\lambda y.E_1]], \\
+        \text{if $E=(E_1\,E_2)$:}    & (\msym{S}\,T[\lambda x.E_1]\,T[\lambda x.E_2
+        ],
+    \end{cases} \\
+    \text{otherwise:} & (\msym{K}\,T[E]).
+  \end{cases}
+\end{align*}
+
+\paragraph{Example:}
+\begin{align*}
+T[\lambda x.\lambda y.yx] &= T[\lambda x.T[\lambda y.yx]] \\
+                          &= T[\lambda x.\msym{s}\,T[\lambda y.y]\,T[\lambda y.x]]
+                          \\
+                          &= T[\lambda x.\msym{S}\,\msym{I}\,(\msym{K}\,x)] \\
+                          &= \msym{S}\,T[\lambda x.\msym{S}\,\msym{I}]\,T[
+                          \lambda x.\msym{K}\,x] \\
+                          &= \msym{S}\,(\msym{K}\,T[\msym{S}\,\msym{I}])\,(\msym
+                          {S}\,T[\lambda x.\msym{K}]\,T[\lambda x.x]) \\
+                          &= \msym{S}\,(\msym{K}\,(\msym{S}\,\msym{I}))\,(\msym{
+                          S}\,(\msym{K}\,\msym{K})\,\msym{I})
+\end{align*}
+
+The fact that any computable function can be expressed using only these two
+combinators is quite interesting in its own right, but we can do even better. 
+Consider:
+\begin{align*}
+\msym{X} &= \lambda x.x\,\msym{S}\,\msym{K}
+\end{align*}
+Now, we can express \sym{S} and \sym{K} using just \sym{X}:
+\begin{align*}
+\msym{K} &= (\msym{X}\,(\msym{X}\,(\msym{X}\,\msym{X}))) \\
+\msym{S} &= (\msym{X}\,(\msym{X}\,(\msym{X}\,(\msym{X}\,\msym{X}))))
+\end{align*}
+That is, all computable functions can be expressed just as some sequence of
+applications of a single combinator\footnote{TODO: binary tree.}.
+
 
 \section{Further Reading}
 
