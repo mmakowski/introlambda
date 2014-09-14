@@ -227,6 +227,10 @@ important result: it allows us to disregard the order of reductions when
 considering the semantics of a lambda term. Specifically, it justifies the
 interchangeability of lazy and eager evaluation.
 
+Does a chain of $\beta$-reductions terminate for every term? No; take as an example 
+$(\lambda x.xx) (\lambda x.xx)$. This term, called $\Omega$, $\beta$-reduces to 
+itself.
+
 \paragraph{Summary:} lambda-terms can be syntactically transformed according to 
 two rules: $\alpha$-conversion, which renames the variables, and $\beta$-reduction,
 which "applies" one term to another.
