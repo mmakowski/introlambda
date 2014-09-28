@@ -1,0 +1,87 @@
+[file]
+slides.pdf
+[duration]
+35
+[end_user_slide]
+1
+[notes]
+### 1
+
+ 
+I'm a software developer
+a number of years working on banking systems, mostly in Java, recently Scala
+curious about ways of making correct and maintainable software
+keep hearing about various tools that are supposed to make it easier: purity, category theory, dependent types
+some of the terminology and concepts might be intimidating
+fortunately, underpinning most of this is a simple formalism: lambda calculus
+### 2
+This is going to be a basic introduction
+
+I do not assume any prior computer science knowledge
+
+If anything is not clear please ask -- it is my fault, not yours
+
+Core topics
+  basics of untyped lambda calculus
+  programming in lambda calculus
+
+If we have time we can do
+  combinatory logic
+  simple types; from there we can branch to:
+  more advanced types
+  Curry-Howard correspondence
+### 3
+Let's start with what lambda calculus is. 
+
+>> Who knows what an AST is? Context-free grammar?
+
+Explain:
+expr ::= n | (<expr> + <expr>) | (<expr> * <expr>)
+
+(2+(3*4))
+
+draw AST
+### 4
+
+Lambda terms consist of three things: variables/abstractions/applications
+
+### 5
+This is a term that consists of a single variable, v1
+
+>> What does its AST look like?
+### 6
+A single variable node
+### 7
+application of x to y
+
+not a valid term, missing parentheses
+
+convention: application binds to the left
+
+>> How many nodes is AST going to have?
+### 8
+The root is an application; its children are two variables, x and y
+### 9
+abstraction
+
+again, we omit redundant parentheses
+
+full-stop is opening parenthesis that extends until the end of subterm
+### 10
+abstraction has just one subterm, so the tree has two nodes
+### 11
+>> What type of node is in the root of this tree?
+### 13
+Take-away: lambda terms are trees with three types of nodes in them
+
+For convenience we write them as linear expressions (as we do with arithmetics)
+
+What operations can we perform on those trees?
+### 14
+Rename variables.
+
+Alpha-conversion.
+### 15
+remove abstraction under application
+
+beta-reduction
