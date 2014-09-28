@@ -152,6 +152,14 @@ $(\lambda a.\lambda b.a)\ c\ (\lambda b.b)$ \> \Tree [.app [.app [.{abs $a$}
 \end{frame}
 % -------------------------------------------
 \begin{frame}
+\frametitle{Syntax}
+\begin{itemize}
+\item $\lambda x.\underline{y}$
+\item $(\lambda a.\underline{b}\ a)\ \underline{c}\ (\lambda b.b)$
+\end{itemize}
+\end{frame}
+% -------------------------------------------
+\begin{frame}
 \frametitle{Rewriting}
 \begin{center}
 $(\lambda x.x\,y)\ (\lambda x.x)\longleftrightarrow_\alpha(\lambda a.a\,y)\ (\lambda b.b)$

@@ -72,16 +72,25 @@ abstraction has just one subterm, so the tree has two nodes
 ### 11
 >> What type of node is in the root of this tree?
 ### 13
+variable under abstraction is bound by it
+
+unbound occurrence: free
+
+### 14
+same variable can be both free and bound in a term
+----
 Take-away: lambda terms are trees with three types of nodes in them
 
 For convenience we write them as linear expressions (as we do with arithmetics)
 
 What operations can we perform on those trees?
-### 14
-Rename variables.
 
-Alpha-conversion.
 ### 15
+
+rename variables (not find/replace!)
+
+alpha conversion
+### 16
 remove abstraction under application
 
 beta-reduction
