@@ -10,6 +10,8 @@
 \newcommand{\nonterm}[1]{$\left<#1\right>$}
 \newcommand{\galt}[0]{$|$}
 
+\def\squareborder#1{\tikz\node[draw]{#1};} 
+
 \begin{document}
 
 \title{Introduction to Lambda Calculus}
@@ -153,10 +155,38 @@ $(\lambda a.\lambda b.a)\ c\ (\lambda b.b)$ \> \Tree [.app [.app [.{abs $a$}
 % -------------------------------------------
 \begin{frame}
 \frametitle{Syntax}
-\begin{itemize}
-\item $\lambda x.\underline{y}$
-\item $(\lambda a.\underline{b}\ a)\ \underline{c}\ (\lambda b.b)$
-\end{itemize}
+\begin{tabbing}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \= ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \\
+$\lambda x.y$                      \> \Tree [.{abs $x$} {var $y$} ]        \\
+\end{tabbing}
+\end{frame}
+% -------------------------------------------
+\begin{frame}
+\frametitle{Syntax}
+\begin{tabbing}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \= ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \\
+$\lambda x.\underline{y}$          \> \Tree [.{abs $x$} \squareborder{var $y$} ] \\
+\end{tabbing}
+\end{frame}
+% -------------------------------------------
+\begin{frame}
+\frametitle{Syntax}
+\begin{tabbing}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \= ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \\
+$(\lambda a.b\ a)\ c\ (\lambda b.b)$  \> 
+\Tree [.app [.app [.{abs $a$} 
+[.app {var $b$} {var $a$} ] ] {var $c$} ] [.{abs $b$} {var $b$} ] ]            \\
+\end{tabbing}
+\end{frame}
+% -------------------------------------------
+\begin{frame}
+\frametitle{Syntax}
+\begin{tabbing}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \= ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \\
+$(\lambda a.\underline{b}\ a)\ \underline{c}\ (\lambda b.b)$ \> 
+\Tree [.app [.app [.{abs $a$} [.app \squareborder{var $b$} {var $a$} ] ] 
+\squareborder{var $c$} ] [.{abs $b$} {var $b$} ] ]            \\
+\end{tabbing}
 \end{frame}
 % -------------------------------------------
 \begin{frame}
