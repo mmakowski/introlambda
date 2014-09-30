@@ -76,7 +76,9 @@ variable under abstraction is bound by it
 
 unbound occurrence: free
 
-### 17
+terms with no free occurrences: combinators
+
+### 15
 same variable can be both free and bound in a term
 ----
 Take-away: lambda terms are trees with three types of nodes in them
@@ -85,12 +87,14 @@ For convenience we write them as linear expressions (as we do with arithmetics)
 
 What operations can we perform on those trees?
 
-### 18
+### 16
 
 rename bound variables (not find/replace!)
 
 alpha conversion
-### 19
+### 17
 remove abstraction under application
 
 beta-reduction
+
+:: multiple redexes example: (\a.(\b.b) a) ((\c.\d.d) \f.f)

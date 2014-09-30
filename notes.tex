@@ -22,6 +22,7 @@
 \newcommand{\msym}[1]{\mathtt{#1}}
 \newcommand{\centeredtab}[1]{\begin{center}\parbox{0cm}{\begin{tabbing}#1\end{tabbing}}\end{center}}
 \newcommand{\msout}[1]{\text{\sout{\ensuremath{#1}}}}
+\def\squareborder#1{\tikz\node[draw]{#1};} 
 
 \pgfarrowsdeclarecombine{twostealth}{twostealth}%
 {stealth}{stealth}{stealth}{stealth}
@@ -90,12 +91,14 @@ Within a term, occurrences of variables that are not bound by enclosing abstract
 -- i.e. where the variable name does not appear in any abs node on the path to the 
 root of the AST -- are called \emph{free}. 
 
-\paragraph{Example:} free occurrences have been underlined in the sample terms
+\paragraph{Example:} free occurrences have been marked in the sample term
 below:
-\begin{itemize}
-\item $\lambda x.\underline{y}$
-\item $(\lambda a.\underline{b}\ a)\ \underline{c}\ (\lambda b.b)$
-\end{itemize}
+\begin{tabbing}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \= ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \\
+$(\lambda a.\underline{b}\ a)\ \underline{c}\ (\lambda b.b)$ \> 
+\Tree [.app [.app [.{abs $a$} [.app \squareborder{var $b$} {var $a$} ] ] 
+\squareborder{var $c$} ] [.{abs $b$} {var $b$} ] ]            \\
+\end{tabbing}
 Note that the same variable name might have both bound and free occurrences
 within a term, as in the second example. Terms with no free occurrences are known 
 as \emph{closed terms}, or \emph{combinators}.

@@ -157,22 +157,6 @@ $(\lambda a.\lambda b.a)\ c\ (\lambda b.b)$ \> \Tree [.app [.app [.{abs $a$}
 \frametitle{Syntax}
 \begin{tabbing}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \= ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \\
-$\lambda x.y$                      \> \Tree [.{abs $x$} {var $y$} ]        \\
-\end{tabbing}
-\end{frame}
-% -------------------------------------------
-\begin{frame}
-\frametitle{Syntax}
-\begin{tabbing}
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \= ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \\
-$\lambda x.\underline{y}$          \> \Tree [.{abs $x$} \squareborder{var $y$} ] \\
-\end{tabbing}
-\end{frame}
-% -------------------------------------------
-\begin{frame}
-\frametitle{Syntax}
-\begin{tabbing}
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \= ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \\
 $(\lambda a.b\ a)\ c\ (\lambda b.b)$  \> 
 \Tree [.app [.app [.{abs $a$} 
 [.app {var $b$} {var $a$} ] ] {var $c$} ] [.{abs $b$} {var $b$} ] ]            \\
