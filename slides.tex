@@ -12,6 +12,9 @@
 
 \def\squareborder#1{\tikz\node[draw]{#1};} 
 
+\pgfarrowsdeclarecombine{twostealth}{twostealth}%
+{stealth}{stealth}{stealth}{stealth}
+
 \begin{document}
 
 \title{Introduction to Lambda Calculus}
@@ -20,8 +23,7 @@
 % -------------------------------------------
 \frame{\titlepage}
 % -------------------------------------------
-\begin{frame}
-\frametitle{The Plan}
+\begin{frame}{The Plan}
 \begin{center}
 \begin{tikzpicture}
 \path[mindmap, 
@@ -44,8 +46,7 @@
 \end{center}
 \end{frame}
 % -------------------------------------------
-\begin{frame}
-\frametitle{Basic Lambda Calculus}
+\begin{frame}{Basic Lambda Calculus}
 \begin{center}
 \begin{tikzpicture}
 \path[mindmap, 
@@ -68,8 +69,7 @@
 \end{center}
 \end{frame}
 % -------------------------------------------
-\begin{frame}
-\frametitle{Syntax}
+\begin{frame}{Syntax}
 \begin{tabbing}
 \nonterm{term} \= ::=  \= $x$~~~~~~~~~~~~~~~~~~~~~~~~~~~~  \= (variable)    \\
                \> \galt \> ($\lambda x.$\nonterm{term})    \> (abstraction) \\
@@ -79,64 +79,56 @@ where $x\in \mathbb{X}$ -- the set of variables
 
 \end{frame}
 % -------------------------------------------
-\begin{frame}
-\frametitle{Syntax}
+\begin{frame}{Syntax}
 \begin{tabbing}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \= ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \\
 $v_1$                              \>                                      \\
 \end{tabbing}
 \end{frame}
 % -------------------------------------------
-\begin{frame}
-\frametitle{Syntax}
+\begin{frame}{Syntax}
 \begin{tabbing}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \= ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \\
 $v_1$                              \> \Tree [.{var $v_1$} ]                \\
 \end{tabbing}
 \end{frame}
 % -------------------------------------------
-\begin{frame}
-\frametitle{Syntax}
+\begin{frame}{Syntax}
 \begin{tabbing}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \= ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \\
 $x\ y$                 \>                                      \\
 \end{tabbing}
 \end{frame}
 % -------------------------------------------
-\begin{frame}
-\frametitle{Syntax}
+\begin{frame}{Syntax}
 \begin{tabbing}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \= ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \\
 $x\ y$                             \> \Tree [.app {var $x$} {var $y$} ]    \\
 \end{tabbing}
 \end{frame}
 % -------------------------------------------
-\begin{frame}
-\frametitle{Syntax}
+\begin{frame}{Syntax}
 \begin{tabbing}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \= ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \\
 $\lambda a.b$                      \>                                      \\
 \end{tabbing}
 \end{frame}
 % -------------------------------------------
-\begin{frame}
-\frametitle{Syntax}
+\begin{frame}{Syntax}
 \begin{tabbing}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \= ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \\
 $\lambda a.b$                      \> \Tree [.{abs $a$} {var $b$} ]        \\
 \end{tabbing}
 \end{frame}
 % -------------------------------------------
-\begin{frame}
-\frametitle{Syntax}
+\begin{frame}{Syntax}
 \begin{tabbing}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \= ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \\
 $(\lambda a.\lambda b.a)\ c\ (\lambda b.b)$ \>                             \\
 \end{tabbing}
 \end{frame}
 % -------------------------------------------
-\begin{frame}
-\frametitle{Syntax}
+\begin{frame}{Syntax}
 \begin{tabbing}
 \nonterm{term} \= ::=  \= $x$~~~~~~~~~~~~~~~~~~~~~~~~~~~~  \= (variable)    \\
                \> \galt \> ($\lambda x.$\nonterm{term})    \> (abstraction) \\
@@ -144,8 +136,7 @@ $(\lambda a.\lambda b.a)\ c\ (\lambda b.b)$ \>                             \\
 \end{tabbing}
 \end{frame}
 % -------------------------------------------
-\begin{frame}
-\frametitle{Syntax}
+\begin{frame}{Syntax}
 \begin{tabbing}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \= ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \\
 $(\lambda a.\lambda b.a)\ c\ (\lambda b.b)$ \> \Tree [.app [.app [.{abs $a$} 
@@ -153,8 +144,7 @@ $(\lambda a.\lambda b.a)\ c\ (\lambda b.b)$ \> \Tree [.app [.app [.{abs $a$}
 \end{tabbing}
 \end{frame}
 % -------------------------------------------
-\begin{frame}
-\frametitle{Syntax}
+\begin{frame}{Syntax}
 \begin{tabbing}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \= ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \\
 $(\lambda a.b\ a)\ c\ (\lambda b.b)$  \> 
@@ -163,8 +153,7 @@ $(\lambda a.b\ a)\ c\ (\lambda b.b)$  \>
 \end{tabbing}
 \end{frame}
 % -------------------------------------------
-\begin{frame}
-\frametitle{Syntax}
+\begin{frame}{Syntax}
 \begin{tabbing}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \= ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \\
 $(\lambda a.\underline{b}\ a)\ \underline{c}\ (\lambda b.b)$ \> 
@@ -173,31 +162,63 @@ $(\lambda a.\underline{b}\ a)\ \underline{c}\ (\lambda b.b)$ \>
 \end{tabbing}
 \end{frame}
 % -------------------------------------------
-\begin{frame}
-\frametitle{Rewriting}
+\begin{frame}{Syntax}
+\begin{itemize}
+\item terms: trees consisting of 
+\begin{itemize}
+\item variables
+\item abstractions
+\item applications
+\end{itemize}
+\item variables are \textit{bound} by abstraction; otherwise \textit{free}
+\end{itemize}
+\end{frame}
+% -------------------------------------------
+\begin{frame}{Rewriting}{$\alpha$-conversion}
+\begin{align*}
+(\lambda x.x\,y)\ (\lambda x.x)\longleftrightarrow_\alpha(\lambda a.a\,y)\ (\lambda b.b)
+\end{align*}
+\end{frame}
+% -------------------------------------------
+\begin{frame}{Rewriting}{$\beta$-reduction}
+\begin{align*}
+(\lambda x.M)\ N\longrightarrow_\beta M[x/N]
+\end{align*}
+\end{frame}
+% -------------------------------------------
+\begin{frame}{Rewriting}{$\beta$-reduction}
+\begin{align*}
+(\lambda x.M)\ N\longrightarrow_\beta M[x/N] \\
+\end{align*}
+\rule{10.75cm}{0.4pt}\\
+\begin{align*}
+(\lambda x.x\,y)\ (\lambda z.z)\longrightarrow_\beta(\lambda z.z)\ y\longrightarrow_\beta y
+\end{align*}
+\end{frame}
+% -------------------------------------------
+\begin{frame}{Rewriting}{$\beta$-reduction}
+\begin{itemize}
+\item \textit{call-by-value}: start with innermost redex, do not reduce under abstraction
+\item \textit{call-by-name}: start with outermost redex, do not reduce under abstraction
+\end{itemize}
+\end{frame}
+% -------------------------------------------
+\begin{frame}{Rewriting}{Church-Rosser}
 \begin{center}
-$(\lambda x.x\,y)\ (\lambda x.x)\longleftrightarrow_\alpha(\lambda a.a\,y)\ (\lambda b.b)$
+\begin{tikzpicture}[->,>=twostealth,node distance=2cm]
+    \node(S) {$S$};
+    \node(T) [below left of=S] {$T$};
+    \node(U) [below right of=S] {$U$};
+    \node(V) [below left of=U] {$V$};
+    \draw (S) -- (T);
+    \draw (S) -- (U);
+    \draw[densely dotted] (T) -- (V);
+    \draw[densely dotted] (U) -- (V);
+\end{tikzpicture}
 \end{center}
 \end{frame}
 % -------------------------------------------
-\begin{frame}
-\frametitle{Rewriting}
-\begin{center}
-$(\lambda x.x\,y)\ (\lambda z.z)\longrightarrow_\beta(\lambda z.z)\ y\longrightarrow_\beta y$
-\end{center}
-\end{frame}
-% -------------------------------------------
-\begin{frame}
-\frametitle{Rewriting}
-\begin{center}
-
-TODO: multiple redexes, Church-Rosser
-
-\end{center}
-\end{frame}
-% -------------------------------------------
-\begin{frame}
-\frametitle{Rewriting}
+\begin{frame}{Rewriting}
 \begin{center}
 
 TODO: $\Omega$
@@ -205,8 +226,7 @@ TODO: $\Omega$
 \end{center}
 \end{frame}
 % -------------------------------------------
-\begin{frame}
-\frametitle{Semantics}
+\begin{frame}{Semantics}
 \begin{center}
 
 TODO: functions
@@ -214,8 +234,7 @@ TODO: functions
 \end{center}
 \end{frame}
 % -------------------------------------------
-\begin{frame}
-\frametitle{Programming in Lambda Calculus}
+\begin{frame}{Programming in Lambda Calculus}
 \begin{center}
 \begin{tikzpicture}
 \path[mindmap, 
@@ -238,8 +257,7 @@ TODO: functions
 \end{center}
 \end{frame}
 % -------------------------------------------
-\begin{frame}
-\frametitle{Simple Types}
+\begin{frame}{Simple Types}
 \begin{center}
 \begin{tikzpicture}
 \path[mindmap, 
@@ -262,8 +280,7 @@ TODO: functions
 \end{center}
 \end{frame}
 % -------------------------------------------
-\begin{frame}
-\frametitle{Curry-Howard Correspondence}
+\begin{frame}{Curry-Howard Correspondence}
 \begin{center}
 \begin{tikzpicture}
 \path[mindmap, 
@@ -286,8 +303,7 @@ TODO: functions
 \end{center}
 \end{frame}
 % -------------------------------------------
-\begin{frame}
-\frametitle{More Types}
+\begin{frame}{More Types}
 \begin{center}
 \begin{tikzpicture}
 \path[mindmap, 
@@ -310,8 +326,7 @@ TODO: functions
 \end{center}
 \end{frame}
 % -------------------------------------------
-\begin{frame}
-\frametitle{The Lambda Cube}
+\begin{frame}{The Lambda Cube}
 \begin{center}
 \begin{tikzpicture}
   \matrix(m)[matrix of math nodes, row sep=3em, column sep=3em, ampersand replacement=\&]{
@@ -326,8 +341,7 @@ TODO: functions
 \end{center}
 \end{frame}
 % -------------------------------------------
-\begin{frame}
-\frametitle{The Lambda Cube}
+\begin{frame}{The Lambda Cube}
 \begin{center}
 \begin{tikzpicture}
   \matrix(m)[matrix of math nodes, row sep=3em, column sep=3em, ampersand replacement=\&]{
@@ -348,8 +362,7 @@ TODO: functions
 \end{center}
 \end{frame}
 % -------------------------------------------
-\begin{frame}
-\frametitle{Subtyping}
+\begin{frame}{Subtyping}
 \begin{center}
 \begin{tikzpicture}
   \matrix(m)[matrix of math nodes, row sep=3em, column sep=3em, ampersand replacement=\&]{
@@ -372,8 +385,7 @@ TODO: functions
 \end{center}
 \end{frame}
 % -------------------------------------------
-\begin{frame}
-\frametitle{Subtyping}
+\begin{frame}{Subtyping}
 \begin{center}
 \begin{tikzpicture}
   \matrix(m)[matrix of math nodes, row sep=3em, column sep=3em, ampersand replacement=\&]{

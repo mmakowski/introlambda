@@ -6,8 +6,6 @@ slides.pdf
 1
 [notes]
 ### 1
-
- 
 I'm a software developer
 a number of years working on banking systems, mostly in Java, recently Scala
 curious about ways of making correct and maintainable software
@@ -25,14 +23,8 @@ Core topics
   basics of untyped lambda calculus
   programming in lambda calculus
 
-If we have time we can do
-  combinatory logic
-  simple types; from there we can branch to:
-  more advanced types
-  Curry-Howard correspondence
+If we have time we can do the others
 ### 3
-Let's start with what lambda calculus is. 
-
 >> Who knows what an AST is? Context-free grammar?
 
 Explain:
@@ -80,21 +72,25 @@ terms with no free occurrences: combinators
 
 ### 15
 same variable can be both free and bound in a term
-----
-Take-away: lambda terms are trees with three types of nodes in them
-
-For convenience we write them as linear expressions (as we do with arithmetics)
+### 16
+For convenience terms are written as linear expressions (like arithmetics)
 
 What operations can we perform on those trees?
-
-### 16
-
+### 17
 rename bound variables (not find/replace!)
 
+can't rename to y (free variable)
+
 alpha conversion
-### 17
+### 18
 remove abstraction under application
 
-beta-reduction
+### 19
+1. x y is M, \z.z is N
+2. z is M, y is N
 
 :: multiple redexes example: (\a.(\b.b) a) ((\c.\d.d) \f.f)
+
+in which order do we reduce? Reduction strategies.
+### 20
+show on previous example: (\a.(\b.b) a) ((\c.\d.d) \f.f)
