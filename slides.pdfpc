@@ -12,6 +12,7 @@ curious about ways of making correct and maintainable software
 keep hearing about various tools that are supposed to make it easier: purity, category theory, dependent types
 some of the terminology and concepts might be intimidating
 fortunately, underpinning most of this is a simple formalism: lambda calculus
+
 ### 2
 This is going to be a basic introduction
 
@@ -84,13 +85,20 @@ can't rename to y (free variable)
 alpha conversion
 ### 18
 remove abstraction under application
+replace *free* occurrences of x in M
 
 ### 19
 1. x y is M, \z.z is N
 2. z is M, y is N
 
+:: bound occurrence example: (\a.a (\a.a)) b
 :: multiple redexes example: (\a.(\b.b) a) ((\c.\d.d) \f.f)
 
 in which order do we reduce? Reduction strategies.
 ### 20
 show on previous example: (\a.(\b.b) a) ((\c.\d.d) \f.f)
+that's where call-by-name param in scala comes from
+does the order of reductions matter?
+### 21
+confluence (for unrestricted beta-reduction)
+does every reduction chain terminate: no: (\x.xx) (\x.xx) (Omega)
