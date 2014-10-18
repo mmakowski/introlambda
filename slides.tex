@@ -9,7 +9,12 @@
 
 \newcommand{\nonterm}[1]{$\left<#1\right>$}
 \newcommand{\galt}[0]{$|$}
-
+\newcommand{\kw}[1]{{\bf \texttt{#1}}}
+\newcommand{\mkw}[1]{{\bf \mathtt{#1}}}
+\newcommand{\sym}[1]{\texttt{#1}}
+\newcommand{\msym}[1]{\mathtt{#1}}
+\newcommand{\hr}[0]{\rule{10.75cm}{0.4pt}\\}
+\newcommand{\centeredtab}[1]{\begin{center}\parbox{0cm}{\begin{tabbing}#1\end{tabbing}}\end{center}}
 \def\squareborder#1{\tikz\node[draw]{#1};} 
 
 \pgfarrowsdeclarecombine{twostealth}{twostealth}%
@@ -190,7 +195,7 @@ $(\lambda a.\underline{b}\ a)\ \underline{c}\ (\lambda b.b)$ \>
 \begin{align*}
 (\lambda x.M)\ N\longrightarrow_\beta M[x/N] \\
 \end{align*}
-\rule{10.75cm}{0.4pt}\\
+\hr
 \begin{align*}
 (\lambda x.x\,y)\ (\lambda z.z)\longrightarrow_\beta(\lambda z.z)\ y\longrightarrow_\beta y
 \end{align*}
@@ -219,21 +224,17 @@ $(\lambda a.\underline{b}\ a)\ \underline{c}\ (\lambda b.b)$ \>
 \end{frame}
 % -------------------------------------------
 \begin{frame}{Semantics}
-\begin{center}
 \begin{align*}
-f(x)=a*x+b \\
-\phantom{\lambda x.+\,(*\,a\,x)\,b}
+f(x)=3*x+2 \\
+\phantom{\lambda x.+\,(*\,3\,x)\,2}
 \end{align*}
-\end{center}
 \end{frame}
 % -------------------------------------------
 \begin{frame}{Semantics}
-\begin{center}
 \begin{align*}
-f(x)=a*x+b \\
-\lambda x.+\,(*\,a\,x)\,b
+f(x)=3*x+2 \\
+\lambda x.+\,(*\,3\,x)\,2
 \end{align*}
-\end{center}
 \end{frame}
 % -------------------------------------------
 \begin{frame}{Programming in Lambda Calculus}
@@ -258,6 +259,111 @@ f(x)=a*x+b \\
 \end{tikzpicture}
 \end{center}
 \end{frame}
+% -------------------------------------------
+\begin{frame}{Conditionals}
+\begin{center}
+\kw{if} $C$ \kw{then} $T$ \kw{else} $F$
+\end{center}
+\hr
+\begin{align*}
+\phantom{\msym{true}  &= \lambda t.\lambda f.t} \\
+\phantom{\msym{false} &= \lambda t.\lambda f.f} \\
+\phantom{\msym{test} &= \lambda c.\lambda t.\lambda f.c\,t\,f} \\
+\phantom{\mkw{if}\,C\,\mkw{then}\,T\,\mkw{else}\,F &= \msym{test}\,C\,T\,F}
+\end{align*}
+\end{frame}
+% -------------------------------------------
+\begin{frame}{Conditionals}
+\begin{center}
+\kw{if} $C$ \kw{then} $T$ \kw{else} $F$
+\end{center}
+\hr
+\begin{align*}
+\msym{true}  &= \lambda t.\lambda f.t \\
+\msym{false} &= \lambda t.\lambda f.f
+\phantom{\msym{test} &= \lambda c.\lambda t.\lambda f.c\,t\,f} \\
+\phantom{\mkw{if}\,C\,\mkw{then}\,T\,\mkw{else}\,F &= \msym{test}\,C\,T\,F}
+\end{align*}
+\end{frame}
+% -------------------------------------------
+\begin{frame}{Conditionals}
+\begin{center}
+\kw{if} $C$ \kw{then} $T$ \kw{else} $F$
+\end{center}
+\hr
+\begin{align*}
+\msym{true}  &= \lambda t.\lambda f.t \\
+\msym{false} &= \lambda t.\lambda f.f \\
+\msym{test} &= \lambda c.\lambda t.\lambda f.c\,t\,f \\
+\mkw{if}\,C\,\mkw{then}\,T\,\mkw{else}\,F &= \msym{test}\,C\,T\,F
+\end{align*}
+\end{frame}
+% -------------------------------------------
+\begin{frame}{Conditionals}
+\begin{center}
+\kw{if} $C$ \kw{then} $T$ \kw{else} $F$
+\end{center}
+\hr
+\begin{align*}
+\msym{true}  &= \lambda t.\lambda f.t \\
+\msym{false} &= \lambda t.\lambda f.f \\
+\msym{test} &= \lambda c.\lambda t.\lambda f.c\,t\,f \\
+\mkw{if}\,C\,\mkw{then}\,T\,\mkw{else}\,F &= \msym{test}\,C\,T\,F
+\end{align*}
+\end{frame}
+% -------------------------------------------
+\begin{frame}{Numbers}
+\begin{align*}
+\msym{0}    &= \lambda s.\lambda z.z \\
+\msym{succ} &= \lambda n.\lambda s.\lambda z.s\,(n\,s\,z)
+\end{align*}
+\end{frame}
+% -------------------------------------------
+\begin{frame}{Numbers}
+\begin{align*}
+\msym{0}    &= \lambda s.\lambda z.z \\
+\msym{succ} &= \lambda n.\lambda s.\lambda z.s\,(n\,s\,z)
+\end{align*}
+\centeredtab{
+\sym{0} \= $=$ \= ~~~~~~~~~    \= ~~~ \= $\lambda s.\lambda z.z$    \\
+\sym{1} \> $=$ \> \sym{succ 0} \> $=$ \> $\lambda s.\lambda z.s\,z$ \\
+\sym{2} \> $=$ \> \sym{succ 1} \> $=$ \> $\lambda s.\lambda z.s\,(s\,z)$ \\
+\sym{3} \> $=$ \> \sym{succ 2} \> $=$ \> $\lambda s.\lambda z.s\,(s\,(s\,z))$ \\
+$\vdots$ \\
+\sym{n} \> $=$ \> \> \> $\lambda s.\lambda z\underbrace{s\,(\dots s\,(s}_n\,z)\dots)$
+}
+\end{frame}
+% -------------------------------------------
+\begin{frame}{Numbers}
+\begin{align*}
+\msym{0}    &= \lambda s.\lambda z.z \\
+\msym{succ} &= \lambda n.\lambda s.\lambda z.s\,(n\,s\,z)
+\end{align*}
+\begin{align*}
+\msym{plus}  &= \lambda m.\lambda n.\lambda s. \lambda z.m\ s\ (n\ s\ z) \\
+\msym{times} &= \lambda m.\lambda n.m\ (\msym{plus}\ n)\ \msym{0}
+\end{align*}
+\end{frame}
+% -------------------------------------------
+\begin{frame}{Recursion}
+\begin{align*}
+n!=\begin{cases}
+    1 & \text{if $n=0$},\\
+    n*(n-1)! & \text{otherwise}.
+  \end{cases}
+\end{align*}
+\end{frame}
+% -------------------------------------------
+\begin{frame}{Recursion}
+\begin{align*}
+\msym{Y} &= \lambda f.(\lambda x.f\,(x\,x))\,(\lambda x.f\,(x\,x)) \\\\
+\msym{g} &= \lambda f.\lambda
+n.\mkw{if}\ \msym{eq}\ n\ \msym{0}\ \mkw{then}\ \msym{1}\ \mkw{else}\ (\msym{times}\ \msym{n}\,(f\,(\msym{pred}\ \msym{n}))) \\
+\msym{factorial} &= \msym{Y}\ \msym{g}
+\end{align*}
+\end{frame}
+
+
 % -------------------------------------------
 \begin{frame}{Simple Types}
 \begin{center}

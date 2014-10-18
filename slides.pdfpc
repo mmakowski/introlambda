@@ -102,3 +102,13 @@ does the order of reductions matter?
 ### 21
 confluence (for unrestricted beta-reduction)
 does every reduction chain terminate: no: (\x.xx) (\x.xx) (Omega)
+### 22
+mental model of what an abstraction represents
+### 23
++ and * -- binary functions 
+lambda abstraction -- definition of anonymous function
+beta-reduction: function evaluation
+### 24
+FP = programming with mathematical functions
+semantics -> we will investigate functional programming
+
