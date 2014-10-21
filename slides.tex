@@ -429,6 +429,21 @@ TODO: strike-out
 \end{center}
 \end{frame}
 % -------------------------------------------
+\begin{frame}{Curry-Howard Correspondence}
+\centeredtab{
+\infer{\psi}{\phi\Rightarrow\psi & & \phi}~~~~~~~~~~~           \= (implication elimination) \\\\\\ 
+\infer{\phi\Rightarrow\psi}{\infer*{\psi}{\phi}} \> (implication introduction)
+}
+\end{frame}
+% -------------------------------------------
+\begin{frame}{Curry-Howard Correspondence}
+\centeredtab{
+\infer{\psi}{\phi\Rightarrow\psi & & \phi}~~~~~~~~~~~ \= \infer{M\,N:\tau}{M:\sigma\rightarrow\tau & & N:\sigma} \\\\\\ 
+\infer{\phi\Rightarrow\psi}{\infer*{\psi}{\phi}} \> \infer{\lambda x.M:\sigma\rightarrow\tau}{\infer*{M:\tau}{x:\sigma}}
+}
+\end{frame}
+
+% -------------------------------------------
 \begin{frame}{More Types}
 \begin{center}
 \begin{tikzpicture}
