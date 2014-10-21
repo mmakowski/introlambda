@@ -526,7 +526,9 @@ the only logical connective. It turns out that the terms in this calculus can
 be interpreted as proofs of the propositions represented by their types. For a
 hint of how such proofs may look see the derivation tree for
 $\lambda f.\lambda x.f(f\,x):(\sigma\rightarrow\sigma)\rightarrow\sigma\rightarrow\sigma$
-in section \ref{types}.
+in section \ref{types}.\footnote{In fact, the typing rules for application and
+abstraction directly correspond to two basic inference rules in propositional
+logic: implication elimination (\textit{Modus Ponens}) and implication introduction.}
 
 The Curry-Howard correspondence does not end on $\lambda_\rightarrow$. It can
 be extended to a huge variety of type systems and logics and this fact has been 
@@ -595,8 +597,8 @@ lambda term can be expressed as a sequence of applications
 of \sym{S} and \sym{K}\footnote{More precisely, for any lambda term $T$ there exists an
 expression $U$ that consist only of application of \sym{S} and \sym{K} that is 
 \textit{extensionally equivalent} to $T$, i.e. for any term $V$, application $TV$ can be
-$\beta$-reduced to the same term as $UV$.}. We can define a translation function
-$T$ as follows:
+$\beta$-reduced to some term to which $UV$ can also be $\beta$-reduced.}. 
+We can define a translation function $T$ as follows:
 \begin{align*}
 T[\msym{K}]    &= \msym{K} \\
 T[\msym{S}]    &= \msym{S} \\
