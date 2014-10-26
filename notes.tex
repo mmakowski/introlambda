@@ -507,6 +507,24 @@ valid, we place limits on how the reduction of such terms can behave.
 
 \section{Curry-Howard Correspondence}
 
+A proof in propositional logic is a sequence of formulae, where each formula is
+either a premise or can be produced from the formulae earlier in the sequence
+through use of rules of inference. Two commonly used rules of inference are 
+implication elimination and introduction:
+\centeredtab{
+\infer{\psi}{\phi\Rightarrow\psi & & \phi}~~~~~~~~~~~           \= (implication elimination) \\\\\\ 
+\infer{\phi\Rightarrow\psi}{\infer*{\psi}{\msout{\phi}}} \> (implication introduction)
+}
+Implication elimination states that if we the antecedent of an implication is in
+our formula sequence then we can add the consequent to the sequence. Implication
+introduction means that if we assume some formula $\phi$ to be true and from
+that assumption (and other formulae in the sequence) can prove that $\psi$ is
+true, then we can eliminate the assumption and instead add the implication $\phi
+\Rightarrow\psi$ to the sequence. Those two rules correspond directly to the typing 
+rules we have seen in section \ref{types}, which hints at a close relationship between 
+logical formulae and types, and between the process of deriving a type and
+proving a theorem.
+
 In classical propositional logic every formula is either true or false.
 \emph{Intuitionistic logic} is an alternative system, where a statement is true
 if it can be proven constructively\footnote{For this reason intuitionistic logic 
@@ -516,25 +534,23 @@ remains unknown. A consequence of intuitionistic approach is that some
 of classical tautologies, such as the law of excluded middle, $p\vee\neg p$, cannot 
 be proven.
 
-Proofs in intuitionistic logic are trees with the formula to be proven in the root,
-axioms in the leaves and inner nodes containig formulae that can be inferred
-from children using a set of prescribed rules. As such, these proofs directly
-correspond to computations. As we argued in \ref{beta-reduction}, so do lambda
+Another consequence is that proofs in intuitionistic logic directly correspond 
+to computations. As we argued in \ref{beta-reduction}, so do lambda
 terms. Furthermore, types of simply-typed lambda calculus can be read as statements 
 in the fragment of intuitionsitic logic that uses implication ($\rightarrow$) as 
 the only logical connective. It turns out that the terms in this calculus can
 be interpreted as proofs of the propositions represented by their types. For a
 hint of how such proofs may look see the derivation tree for
 $\lambda f.\lambda x.f(f\,x):(\sigma\rightarrow\sigma)\rightarrow\sigma\rightarrow\sigma$
-in section \ref{types}.\footnote{In fact, the typing rules for application and
-abstraction directly correspond to two basic inference rules in propositional
-logic: implication elimination (\textit{Modus Ponens}) and implication introduction.}
+in section \ref{types}.
 
 The Curry-Howard correspondence does not end on $\lambda_\rightarrow$. It can
 be extended to a huge variety of type systems and logics and this fact has been 
 exploited to transfer results between the fields of logic and computer 
 science\footnote{For an example of practical application of Curry-Howard correspondence 
 see \cite{s11}.}.
+
+\paragraph{Summary:} types are theorems and programs are their proofs.
 
 \section{More Types}
 
@@ -583,6 +599,11 @@ calculi based on simple types and the three extensions mentioned form the
 In addition, subtyping ($<:$) can be added to $\lambda_\rightarrow$, and a
 combination of this calculus with extensions of System F provides calculi in
 which object orientation can be modelled.
+
+\paragraph{Summary:} a wide variety of practical type system features, such as
+parametric polymorphism, subtyping and dependent typing can be modelled as 
+extensions of simply-typed lambda calculus.
+
 
 \section{Combinatory Logic}
 
@@ -643,6 +664,8 @@ Now, we can express \sym{S} and \sym{K} using just \sym{X}:
 That is, all computable functions can be expressed just as some sequence of
 applications of a single combinator.
 
+\paragraph{Summary:} all computable functions can be expressed as a composition 
+of a small set of basic combinators.
 
 \section{Further Reading}
 
@@ -653,6 +676,11 @@ system in easy to follow steps, starting from untyped lambda calculus.
 For a succinct but rigorous introduction to lambda calculus see \cite{bb00}.
 \cite{su99} contains a complete formal introduction to lambda calculus and an
 extensive material on Curry-Howard correspondence.
+
+\cite{LCSS} is often called "the bible of untyped lambda calculus" and can be
+treated as the ultimate reference. It is not a light read though, so it is only
+recommended to those who are interested in formal treatment of the very
+fundamentals of the calculus.
 
 \begin{thebibliography}{9}
 \bibitem[TAPL]{TAPL} Benjamin C. Pierce, \emph{Types and Programming Languages},
