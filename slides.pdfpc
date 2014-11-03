@@ -111,6 +111,8 @@ beta-reduction: function evaluation
 ### 24
 FP = programming with mathematical functions
 semantics -> we will investigate functional programming
+
+>> the most fundamental programming construct?
 ### 25
 this is how it is commonly written
 we only have lambda terms. How do we represent boolean values?
@@ -130,7 +132,7 @@ we can define equality etc.
 how do we do factorial?
 ### 31
 ### 32
-Intuition: we write a function that takes function as a param then feed it to itself using Y
+Intuition: we write a function that takes function as a param then feeds it to itself using Y
 Best explained on an example
 ### 33
 :: derive:
@@ -140,6 +142,10 @@ where h = \x.g (x x), fct = h h
 We work with statically typed language
 ### 35
 idea: function type specifies type of arg and result with arrow in between
+
+example: s->s, (s->t)->(t->u)->s->u
+
+arrow binds to the right
 ### 36
 this is how rules of inference are written
 :: derive type for \f.\x.f (f x)
