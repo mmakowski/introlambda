@@ -303,19 +303,6 @@ f(x)=3*x+2 \\
 \end{align*}
 \end{frame}
 % -------------------------------------------
-\begin{frame}{Conditionals}
-\begin{center}
-\kw{if} $C$ \kw{then} $T$ \kw{else} $F$
-\end{center}
-\hr
-\begin{align*}
-\msym{true}  &= \lambda t.\lambda f.t \\
-\msym{false} &= \lambda t.\lambda f.f \\
-\msym{test} &= \lambda c.\lambda t.\lambda f.c\,t\,f \\
-\mkw{if}\,C\,\mkw{then}\,T\,\mkw{else}\,F &= \msym{test}\,C\,T\,F
-\end{align*}
-\end{frame}
-% -------------------------------------------
 \begin{frame}{Numbers}
 \begin{align*}
 \msym{0}    &= \lambda s.\lambda z.z \\
@@ -360,7 +347,22 @@ n!=\begin{cases}
 % -------------------------------------------
 \begin{frame}{Recursion}
 \begin{align*}
-\msym{Y} &= \lambda f.(\lambda x.f\,(x\,x))\,(\lambda x.f\,(x\,x)) \\\\
+\msym{Y} &= \lambda f.(\lambda x.f\,(x\,x))\,(\lambda x.f\,(x\,x))
+\end{align*}
+\hr
+\begin{align*}
+\phantom{\msym{g} = \lambda f.\lambda
+n.\mkw{if}\ \msym{eq}\ n\ \msym{0}\ \mkw{then}\ \msym{1}\ \mkw{else}\ (\msym{times}\ \msym{n}\,(f\,(\msym{pred}\ \msym{n})))} \\
+\phantom{\msym{factorial} = \msym{Y}\ \msym{g}}
+\end{align*}
+\end{frame}
+% -------------------------------------------
+\begin{frame}{Recursion}
+\begin{align*}
+\msym{Y} &= \lambda f.(\lambda x.f\,(x\,x))\,(\lambda x.f\,(x\,x))
+\end{align*}
+\hr
+\begin{align*}
 \msym{g} &= \lambda f.\lambda
 n.\mkw{if}\ \msym{eq}\ n\ \msym{0}\ \mkw{then}\ \msym{1}\ \mkw{else}\ (\msym{times}\ \msym{n}\,(f\,(\msym{pred}\ \msym{n}))) \\
 \msym{factorial} &= \msym{Y}\ \msym{g}

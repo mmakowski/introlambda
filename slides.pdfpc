@@ -111,4 +111,68 @@ beta-reduction: function evaluation
 ### 24
 FP = programming with mathematical functions
 semantics -> we will investigate functional programming
-
+### 25
+this is how it is commonly written
+we only have lambda terms. How do we represent boolean values?
+### 26
+given this representation, how can we encode conditional?
+:: explain: both are functions of two arguments, we have to apply them to something
+### 27
+Peano numbers: zero and successor
+### 28
+What do actual numerals look like?
+### 29
+Church encoding
+How do we do arithmetics?
+### 30
+minus is tricky
+we can define equality etc.
+how do we do factorial?
+### 31
+### 32
+Intuition: we write a function that takes function as a param then feed it to itself using Y
+Best explained on an example
+### 33
+:: derive:
+factorial 3 -> Y g 3 -> (h h) 3 -> g (h h) 3 -> g fct 3 -> subst f -> times 3 (fct 2)
+where h = \x.g (x x), fct = h h
+### 34
+We work with statically typed language
+### 35
+idea: function type specifies type of arg and result with arrow in between
+### 36
+this is how rules of inference are written
+:: derive type for \f.\x.f (f x)
+|- (turnstile) notation
+if we insist that only programs which can have type assigned are valid we restrict language
+simple types do not permit omega or Y
+### 37
+Only basic idea in this section
+Logic: a set of rules for constructing sentences that can be true or false
+negation, and, or, implication
+Proof: symbolic manipulation of sentences according to rules of inference
+### 38
+Sample rules of inference for propositional logic
+Haven't we seen something similar before?
+### 39
+This hints at a correspondence between types and logical formulae (theorems)
+derivation in classical logic can be not constructive
+constructive (intuitionistic) logic: all proofs must be constructive
+they represent computations -- as do lambda terms
+Miles Sabin used for unboxed union types
+### 40
+Simple types were severly restricted
+balancing act: allow expressing more programs, disallow bad programs
+can extend simple types
+### 41
+\2: System F, polymorphism (terms depending on types)
+\w: type operators (types depending on types)
+\P: dependent types (types depending on terms)
+extensions can be combined
+### 42
+lambda cube
+\w: Fw, popular research type system
+where is object orientation (Scala)?
+### 43
+subtyping can be combined with some other extensions
+### 44
