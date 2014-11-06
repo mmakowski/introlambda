@@ -78,6 +78,20 @@
 \end{center}
 \end{frame}
 % -------------------------------------------
+\begin{frame}{Semantics}
+\begin{align*}
+f(x)=3*x+2 \\
+\phantom{\lambda x.+\,(*\,3\,x)\,2}
+\end{align*}
+\end{frame}
+% -------------------------------------------
+\begin{frame}{Semantics}
+\begin{align*}
+f(x)=3*x+2 \\
+\lambda x.+\,(*\,3\,x)\,2
+\end{align*}
+\end{frame}
+% -------------------------------------------
 \begin{frame}{Syntax}
 \begin{tabbing}
 \nonterm{term} \= ::=  \= $x$~~~~~~~~~~~~~~~~~~~~~~~~~~~~  \= (variable)    \\
@@ -227,20 +241,6 @@ $(\lambda a.\underline{b}\ a)\ \underline{c}\ (\lambda b.b)$ \>
 \end{center}
 \end{frame}
 % -------------------------------------------
-\begin{frame}{Semantics}
-\begin{align*}
-f(x)=3*x+2 \\
-\phantom{\lambda x.+\,(*\,3\,x)\,2}
-\end{align*}
-\end{frame}
-% -------------------------------------------
-\begin{frame}{Semantics}
-\begin{align*}
-f(x)=3*x+2 \\
-\lambda x.+\,(*\,3\,x)\,2
-\end{align*}
-\end{frame}
-% -------------------------------------------
 \begin{frame}{Programming in Lambda Calculus}
 \begin{center}
 \begin{tikzpicture}
@@ -367,6 +367,24 @@ n.\mkw{if}\ \msym{eq}\ n\ \msym{0}\ \mkw{then}\ \msym{1}\ \mkw{else}\ (\msym{tim
 n.\mkw{if}\ \msym{eq}\ n\ \msym{0}\ \mkw{then}\ \msym{1}\ \mkw{else}\ (\msym{times}\ \msym{n}\,(f\,(\msym{pred}\ \msym{n}))) \\
 \msym{factorial} &= \msym{Y}\ \msym{g}
 \end{align*}
+\end{frame}
+% -------------------------------------------
+\begin{frame}{Recursion}
+\begin{align*}
+\msym{Y} &= \lambda f.(\lambda x.f\,(x\,x))\,(\lambda x.f\,(x\,x)) \\
+\msym{g} &= \lambda f.\lambda
+n.\mkw{if}\ \msym{eq}\ n\ \msym{0}\ \mkw{then}\ \msym{1}\ \mkw{else}\ (\msym{times}\ \msym{n}\,(f\,(\msym{pred}\ \msym{n}))) \\
+\msym{factorial} &= \msym{Y}\ \msym{g}
+\end{align*}
+\hr
+\begin{tabbing}
+\sym{factorial} \sym{3} ~~~~~~~~~~~~~~~~~~~ \= \\
+\sym{Y} \sym{g} \sym{3} \> \\
+$(\msym{h}\ \msym{h})\ \msym{3}$ \> where $\msym{h}=\lambda x.\msym{g}\ (x\ x)$ \\
+$\msym{g}\ (\msym{h}\ \msym{h})\ \msym{3}$ \> \\
+$\msym{g}\ \msym{fct}\ \msym{3}$ \> where $\msym{fct}=\msym{h}\ \msym{h}$ \\
+$\mkw{if}\ \msym{eq}\ \msym{3}\ \msym{0}\ \mkw{then}\ \msym{1}\ \mkw{else}\ (\msym{times}\ \msym{3}\,(\msym{fct}\,(\msym{pred}\ \msym{3})))$ \>
+\end{tabbing}
 \end{frame}
 
 
