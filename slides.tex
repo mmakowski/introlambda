@@ -147,41 +147,33 @@ $\lambda a.b$                      \> \Tree [.{abs $a$} {var $b$} ]        \\
 \begin{frame}{Syntax}
 \begin{tabbing}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \= ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \\
-$(\lambda a.\lambda b.a)\ c\ (\lambda b.b)$ \>                             \\
-\end{tabbing}
-\end{frame}
-% -------------------------------------------
-\begin{frame}{Syntax}
-\begin{tabbing}
-\nonterm{term} \= ::=  \= $x$~~~~~~~~~~~~~~~~~~~~~~~~~~~~  \= (variable)    \\
-               \> \galt \> ($\lambda x.$\nonterm{term})    \> (abstraction) \\
-               \> \galt \> (\nonterm{term} \nonterm{term}) \> (application) 
+$(\lambda a.\lambda b.a)\ d\ (\lambda b.b)$ \>                             \\
 \end{tabbing}
 \end{frame}
 % -------------------------------------------
 \begin{frame}{Syntax}
 \begin{tabbing}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \= ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \\
-$(\lambda a.\lambda b.a)\ c\ (\lambda b.b)$ \> \Tree [.app [.app [.{abs $a$} 
-[.{abs $b$} {var $a$} ] ] {var $c$} ] [.{abs $b$} {var $b$} ] ]             \\
+$(\lambda a.\lambda b.a)\ d\ (\lambda b.b)$ \> \Tree [.app [.app [.{abs $a$} 
+[.{abs $b$} {var $a$} ] ] {var $d$} ] [.{abs $b$} {var $b$} ] ]             \\
 \end{tabbing}
 \end{frame}
 % -------------------------------------------
 \begin{frame}{Syntax}
 \begin{tabbing}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \= ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \\
-$(\lambda a.b\ a)\ c\ (\lambda b.b)$  \> 
+$(\lambda a.b\ a)\ d\ (\lambda b.b)$  \> 
 \Tree [.app [.app [.{abs $a$} 
-[.app {var $b$} {var $a$} ] ] {var $c$} ] [.{abs $b$} {var $b$} ] ]            \\
+[.app {var $b$} {var $a$} ] ] {var $d$} ] [.{abs $b$} {var $b$} ] ]            \\
 \end{tabbing}
 \end{frame}
 % -------------------------------------------
 \begin{frame}{Syntax}
 \begin{tabbing}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \= ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \\
-$(\lambda a.\underline{b}\ a)\ \underline{c}\ (\lambda b.b)$ \> 
+$(\lambda a.\underline{b}\ a)\ \underline{d}\ (\lambda b.b)$ \> 
 \Tree [.app [.app [.{abs $a$} [.app \squareborder{var $b$} {var $a$} ] ] 
-\squareborder{var $c$} ] [.{abs $b$} {var $b$} ] ]            \\
+\squareborder{var $d$} ] [.{abs $b$} {var $b$} ] ]            \\
 \end{tabbing}
 \end{frame}
 % -------------------------------------------
@@ -204,26 +196,28 @@ $(\lambda a.\underline{b}\ a)\ \underline{c}\ (\lambda b.b)$ \>
 \end{frame}
 % -------------------------------------------
 \begin{frame}{Rewriting}{$\beta$-reduction}
-\begin{align*}
-(\lambda x.M)\ N\longrightarrow_\beta M[x/N]
-\end{align*}
+$$(\lambda x.M)\ N\longrightarrow_\beta M[x/N]$$
 \end{frame}
 % -------------------------------------------
 \begin{frame}{Rewriting}{$\beta$-reduction}
-\begin{align*}
-(\lambda x.M)\ N\longrightarrow_\beta M[x/N] \\
-\end{align*}
+$$(\lambda x.M)\ N\longrightarrow_\beta M[x/N]$$
 \hr
-\begin{align*}
-(\lambda x.x\,y)\ (\lambda z.z)\longrightarrow_\beta(\lambda z.z)\ y\longrightarrow_\beta y
-\end{align*}
+$$(\lambda x.x\,y)\ (\lambda z.z)\longrightarrow_\beta(\lambda z.z)\ y\longrightarrow_\beta y$$
 \end{frame}
 % -------------------------------------------
 \begin{frame}{Rewriting}{$\beta$-reduction}
-\begin{itemize}
-\item \textit{call-by-value}: start with innermost redex, do not reduce under abstraction
-\item \textit{call-by-name}: start with outermost redex, do not reduce under abstraction
-\end{itemize}
+$$(\lambda x.M)\ N\longrightarrow_\beta M[x/N]$$
+\hr
+$$(\lambda a.a\ (\lambda a.a))\ b\longrightarrow_\beta b\ (\lambda a.a)$$
+\end{frame}
+% -------------------------------------------
+\begin{frame}{Rewriting}{$\beta$-reduction}
+\begin{center}
+$$(\lambda x.M)\ N\longrightarrow_\beta M[x/N]$$
+\hr
+TODO: nicer redexes
+$$(\lambda a.(\lambda b.b) [1]a) [3] ((\lambda c.\lambda d.d)[2] \lambda f.f)$$
+\end{center}
 \end{frame}
 % -------------------------------------------
 \begin{frame}{Rewriting}{Church-Rosser}
@@ -238,6 +232,12 @@ $(\lambda a.\underline{b}\ a)\ \underline{c}\ (\lambda b.b)$ \>
     \draw[densely dotted] (T) -- (V);
     \draw[densely dotted] (U) -- (V);
 \end{tikzpicture}
+\end{center}
+\end{frame}
+% -------------------------------------------
+\begin{frame}{Rewriting}{$\beta$-reduction}
+\begin{center}
+$$\Omega = (\lambda x.xx) (\lambda x.xx)$$
 \end{center}
 \end{frame}
 % -------------------------------------------

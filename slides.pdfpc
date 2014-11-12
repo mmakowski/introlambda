@@ -6,179 +6,174 @@ slides.pdf
 1
 [notes]
 ### 1
-I'm a software developer
-a number of years working on banking systems, mostly in Java, recently Scala
-curious about ways of making correct and maintainable software
-keep hearing about various tools that are supposed to make it easier: purity, category theory, dependent types
-some of the terminology and concepts might be intimidating
-fortunately, underpinning most of this is a simple formalism: lambda calculus
+this is not going to be a talk about Scala
+engineering disciplines: 300 Watts power, withstand earthquake
+business apps pumping data: guarantees uncommon
+what the system will not do under any circumstances
+scalaz, shapeless, no IO, sorted list
+all this intimidating terminology that might be off-putting
+bad news: no easy way to enlightenment
+good news: first steps are easy
 
 ### 2
 This is going to be a basic introduction
-
 I do not assume any prior computer science knowledge
-
 If anything is not clear please ask -- it is my fault, not yours
 
 Core topics
   basics of untyped lambda calculus
   programming in lambda calculus
 
-If we have time we can do the others
+Very briefly others
+
 ### 3
->> Who knows what an AST is? Context-free grammar?
-
-Explain:
-expr ::= n | (<expr> + <expr>) | (<expr> * <expr>)
-
-(2+(3*4))
-
-draw AST
 ### 4
+tried introducing syntax only, was confusing
+mental model helps
+### 5
+lambda -- definition of anonymous function of specified variable
+prefix notation
+only one of possible interpretations, but convenient
+### 6
 
+Explain grammar
 Lambda terms consist of three things: variables/abstractions/applications
 
-### 5
+### 7
 This is a term that consists of a single variable, v1
 
 >> What does its AST look like?
-### 6
-A single variable node
-### 7
-application of x to y
-
-not a valid term, missing parentheses
-
-convention: application binds to the left
-
->> How many nodes is AST going to have?
 ### 8
-The root is an application; its children are two variables, x and y
+A single variable node
 ### 9
-abstraction
-
-again, we omit redundant parentheses
-
-full-stop is opening parenthesis that extends until the end of subterm
+application of x to y
+not a valid term, missing parentheses
+convention: application binds to the left
 ### 10
-abstraction has just one subterm, so the tree has two nodes
+The root is an application; its children are two variables, x and y
 ### 11
->> What type of node is in the root of this tree?
+abstraction
+again, we omit redundant parentheses
+full-stop is opening parenthesis that extends until the end of subterm
+### 12
+abstraction has just one subterm, so the tree has two nodes
 ### 13
+More complex example
+### 14
 variable under abstraction is bound by it
-
 unbound occurrence: free
-
 terms with no free occurrences: combinators
 
 ### 15
 same variable can be both free and bound in a term
-### 16
-For convenience terms are written as linear expressions (like arithmetics)
-
-What operations can we perform on those trees?
 ### 17
-rename bound variables (not find/replace!)
-
-can't rename to y (free variable)
-
-alpha conversion
+For convenience terms are written as linear expressions (like arithmetics)
+This was static description
+What operations can we perform on those trees?
 ### 18
+rename bound variables (not find/replace!)
+can't rename to y (free variable)
+alpha conversion
+not interesting in itself, but useful in other operations
+### 19
 remove abstraction under application
 replace *free* occurrences of x in M
 
-### 19
+### 20
 1. x y is M, \z.z is N
 2. z is M, y is N
 
-:: bound occurrence example: (\a.a (\a.a)) b
-:: multiple redexes example: (\a.(\b.b) a) ((\c.\d.d) \f.f)
+computation! (function evaluation)
+### 21
+bound occurrence example
+### 22
+multiple redexes example: (\a.(\b.b) a) ((\c.\d.d) \f.f)
 
 in which order do we reduce? Reduction strategies.
-### 20
-show on previous example: (\a.(\b.b) a) ((\c.\d.d) \f.f)
-that's where call-by-name param in scala comes from
-does the order of reductions matter?
-### 21
-confluence (for unrestricted beta-reduction)
-does every reduction chain terminate: no: (\x.xx) (\x.xx) (Omega)
-### 22
-mental model of what an abstraction represents
+
+call-by-value: start with innermost, do not reduce under abstraction
+call-by-name: start with outermost, do not reduce under abstraction
+like in scala
+
+does order matter?
 ### 23
-+ and * -- binary functions 
-lambda abstraction -- definition of anonymous function
-beta-reduction: function evaluation
+confluence (for unrestricted beta-reduction)
+does every reduction chain terminate?
 ### 24
+### 25
 FP = programming with mathematical functions
 semantics -> we will investigate functional programming
 
 >> the most fundamental programming construct?
-### 25
+### 26
 this is how it is commonly written
 we only have lambda terms. How do we represent boolean values?
-### 26
+### 27
 given this representation, how can we encode conditional?
 :: explain: both are functions of two arguments, we have to apply them to something
-### 27
-Peano numbers: zero and successor
 ### 28
-What do actual numerals look like?
+Peano numbers: zero and successor
 ### 29
+each number is a fn of two args
+zero: like false (incidentally)
+succ: takes an n and produces a number where s is applied to n, passing through two args
+
+What do actual numerals look like?
+### 30
 Church encoding
 How do we do arithmetics?
-### 30
+### 31
 minus is tricky
 we can define equality etc.
 how do we do factorial?
-### 31
 ### 32
-Intuition: we write a function that takes function as a param then feeds it to itself using Y
-Best explained on an example
+how do we do recursion without names?
 ### 33
-:: derive:
-factorial 3 -> Y g 3 -> (h h) 3 -> g (h h) 3 -> g fct 3 -> subst f -> times 3 (fct 2)
-where h = \x.g (x x), fct = h h
+Best explained on an example
 ### 34
-We work with statically typed language
+Intuition: we write a function that takes function as a param then feeds it to itself using Y
 ### 35
+### 36
+We work with statically typed language
+### 37
 idea: function type specifies type of arg and result with arrow in between
 
 example: s->s, (s->t)->(t->u)->s->u
 
 arrow binds to the right
-### 36
+### 38
 this is how rules of inference are written
 :: derive type for \f.\x.f (f x)
 |- (turnstile) notation
 if we insist that only programs which can have type assigned are valid we restrict language
 simple types do not permit omega or Y
-### 37
+### 39
 Only basic idea in this section
 Logic: a set of rules for constructing sentences that can be true or false
 negation, and, or, implication
 Proof: symbolic manipulation of sentences according to rules of inference
-### 38
+### 40
 Sample rules of inference for propositional logic
 Haven't we seen something similar before?
-### 39
+### 41
 This hints at a correspondence between types and logical formulae (theorems)
 derivation in classical logic can be not constructive
 constructive (intuitionistic) logic: all proofs must be constructive
 they represent computations -- as do lambda terms
 Miles Sabin used for unboxed union types
-### 40
+### 42
 Simple types were severly restricted
 balancing act: allow expressing more programs, disallow bad programs
 can extend simple types
-### 41
+### 43
 \2: System F, polymorphism (terms depending on types)
 \w: type operators (types depending on types)
 \P: dependent types (types depending on terms)
 extensions can be combined
-### 42
+### 44
 lambda cube
 \w: Fw, popular research type system
 where is object orientation (Scala)?
-### 43
+### 45
 subtyping can be combined with some other extensions
-### 44
+### 46
