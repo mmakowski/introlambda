@@ -19,6 +19,7 @@
 \newcommand{\msym}[1]{\mathtt{#1}}
 \newcommand{\hr}[0]{\rule{10.75cm}{0.4pt}\\}
 \newcommand{\centeredtab}[1]{\begin{center}\parbox{0cm}{\begin{tabbing}#1\end{tabbing}}\end{center}}
+\newcommand*\circled[1]{\ {\tiny \tikz[baseline=(char.base)]{\node[shape=circle,draw,inner sep=.5pt] (char) {#1};}}\ }
 \def\squareborder#1{\tikz\node[draw]{#1};} 
 
 \pgfarrowsdeclarecombine{twostealth}{twostealth}%
@@ -215,8 +216,7 @@ $$(\lambda a.a\ (\lambda a.a))\ b\longrightarrow_\beta b\ (\lambda a.a)$$
 \begin{center}
 $$(\lambda x.M)\ N\longrightarrow_\beta M[x/N]$$
 \hr
-TODO: nicer redexes
-$$(\lambda a.(\lambda b.b) [1]a) [3] ((\lambda c.\lambda d.d)[2] \lambda f.f)$$
+$$(\lambda a.(\lambda b.b) \circled{1}a) \circled{3} ((\lambda c.\lambda d.d)\circled{2} \lambda f.f)$$
 \end{center}
 \end{frame}
 % -------------------------------------------
@@ -664,8 +664,8 @@ Semantics}
 % -------------------------------------------
 \begin{frame}{Notes}
 \begin{itemize}
-\item \url{https://github.com/mmakowski/introlambda/blob/baml/notes.pdf}
-\item \url{https://github.com/mmakowski/introlambda/blob/baml/slides.pdf}
+\item \url{https://github.com/mmakowski/introlambda/blob/lsug/notes.pdf}
+\item \url{https://github.com/mmakowski/introlambda/blob/lsug/slides.pdf}
 \end{itemize}
 \end{frame}
 
