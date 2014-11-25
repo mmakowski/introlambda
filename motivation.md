@@ -27,7 +27,10 @@ advanced functional and type-level techniques requires a lot of learning.
 The good news is that first steps in this learning are very easy. The fundamental 
 formalism that underpins all of this, the lambda calculus, is really easy to get 
 to grips with. This talk is meant to show you the lay of the lambda-land and 
-give some pointers where to look next if you wanted to learn more.
+give some pointers where to look next if you wanted to learn more. To be clear:
+there won't be any practice in it, you won't go away and think: "right, let's
+put it to use now". But hopefully, it will pique your interest in the subject
+and give some ideas where to go next.
 
 -- plan of the talk
 
