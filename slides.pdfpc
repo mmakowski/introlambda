@@ -71,24 +71,17 @@ For convenience terms are written as linear expressions (like arithmetics)
 This was static description
 What operations can we perform on those trees?
 ### 18
-rename bound variables (not find/replace!)
-can't rename to y (free variable)
-alpha conversion
-not interesting in itself, but useful in other operations
-### 19
 remove abstraction under application
 replace *free* occurrences of x in M
 
-### 20
+### 19
 1. x y is M, \z.z is N
 2. z is M, y is N
 
 computation! (function evaluation)
-### 21
+### 20
 bound occurrence example
-### 22
-multiple redexes example: (\a.(\b.b) a) ((\c.\d.d) \f.f)
-
+### 21
 in which order do we reduce? Reduction strategies.
 
 call-by-value: start with innermost, do not reduce under abstraction
@@ -96,22 +89,24 @@ call-by-name: start with outermost, do not reduce under abstraction
 like in scala
 
 does order matter?
-### 23
+### 22
 confluence (for unrestricted beta-reduction)
 does every reduction chain terminate?
+### 23
 ### 24
+>> who is completely lost? who understands everything?
 ### 25
 FP = programming with mathematical functions
 semantics -> we will investigate functional programming
 
->> the most fundamental programming construct?
 ### 26
 this is how it is commonly written
 we only have lambda terms. How do we represent boolean values?
 ### 27
 given this representation, how can we encode conditional?
-:: explain: both are functions of two arguments, we have to apply them to something
 ### 28
+apply the boolean to the values for two branches
+
 Peano numbers: zero and successor
 ### 29
 each number is a fn of two args
@@ -127,53 +122,60 @@ minus is tricky
 we can define equality etc.
 how do we do factorial?
 ### 32
+names we assigned so far -- just macros, not part of the language
 how do we do recursion without names?
+
 ### 33
 Best explained on an example
 ### 34
-Intuition: we write a function that takes function as a param then feeds it to itself using Y
+like factorial, but takes the function to call as arg
+Intuition: Y feeds a function to itself
+let's convince ourselves it works
 ### 35
 ### 36
-We work with statically typed language
+we have seen we can represent basic programming constructs and objects such as numbers as lambda expressions
+why is it useful? easier to (formally) reason about the semantics of programs we write
 ### 37
+We work with statically typed language
+### 38
 idea: function type specifies type of arg and result with arrow in between
 
-example: s->s, (s->t)->(t->u)->s->u
-
 arrow binds to the right
-### 38
-this is how rules of inference are written
-:: derive type for \f.\x.f (f x)
-|- (turnstile) notation
-if we insist that only programs which can have type assigned are valid we restrict language
-simple types do not permit omega or Y
+
+another way to introduce types: explicit type annotations on abstractions
+
+how are the types assigned?
 ### 39
-Only basic idea in this section
-Logic: a set of rules for constructing sentences that can be true or false
-negation, and, or, implication
-Proof: symbolic manipulation of sentences according to rules of inference
+this is how rules of inference are written
 ### 40
-Sample rules of inference for propositional logic
-Haven't we seen something similar before?
+types are assigned by building derivation trees using those two rules
+structure follows the struture of lambda term
 ### 41
-This hints at a correspondence between types and logical formulae (theorems)
-derivation in classical logic can be not constructive
-constructive (intuitionistic) logic: all proofs must be constructive
-they represent computations -- as do lambda terms
-Miles Sabin used for unboxed union types
-### 42
-Simple types were severly restricted
+we defined a new calculus, with different set of valid terms
+simple types do not permit omega or Y
 balancing act: allow expressing more programs, disallow bad programs
 can extend simple types
+
+more complex types systems permit more programs
+what are those more complex type systems?
+### 42
 ### 43
+Three basic extensions of simple types:
+
 \2: System F, polymorphism (terms depending on types)
 \w: type operators (types depending on types)
 \P: dependent types (types depending on terms)
+
 extensions can be combined
 ### 44
 lambda cube
 \w: Fw, popular research type system
 where is object orientation (Scala)?
 ### 45
+should be a fourth dimension
+
 subtyping can be combined with some other extensions
 ### 46
+Scala still not there
+
+### 47
