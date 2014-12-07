@@ -7,13 +7,11 @@ slides.pdf
 [notes]
 ### 1
 this is not going to be a talk about Scala
-engineering disciplines: 300 Watts power, withstand earthquake
-business apps pumping data: guarantees uncommon
-what the system will not do under any circumstances
-scalaz, shapeless, no IO, sorted list
-all this intimidating terminology that might be off-putting
-bad news: no easy way to enlightenment
-good news: first steps are easy
+not practical
+still relevant 10 years from now
+diverse community, some engineers, some mathematicians
+type lambda, soundness, Church encoding
+no time to explain, just give some background, pique interest, give pointers for your own exploration
 
 ### 2
 This is going to be a basic introduction
